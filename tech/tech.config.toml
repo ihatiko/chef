@@ -1,0 +1,19 @@
+[tech.service]
+port = 10001
+pprof = 10002
+timeout = 5
+readTimeout = 5
+writeTimeout = 5
+
+[tech.tracer]
+host = "http://localhost:14268/api/traces"
+ratio = 0.1
+
+[tech.profiler]
+host = "http://localhost:4040"
+ratio = 5
+
+[tech.log]
+encoding = "json"
+level = "info"
+devMode = false
