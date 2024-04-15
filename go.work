@@ -1,8 +1,9 @@
 go 1.22.0
 
 use (
-	./infrastucture/tracer
-	./infrastucture/logger
-	./infrastucture/tech
-	./infrastucture/http
+	./temple/infrastucture/tracer
+	./temple/infrastucture/logger
+	./temple/infrastucture/tech
+	./temple/infrastucture/http
+	./hephaestus
 )

@@ -1,8 +1,8 @@
 package tech
 
 import (
-	"github.com/ihatiko/olymp/logger"
-	"github.com/ihatiko/olymp/tracer"
+	"github.com/ihatiko/olymp/temple/infrastucture/logger"
+	"github.com/ihatiko/olymp/temple/infrastucture/tracer"
 )
 
 type Server struct {

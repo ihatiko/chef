@@ -1,4 +1,4 @@
-module github.com/ihatiko/olymp/tech
+module github.com/ihatiko/olymp/temple/infrastucture/tech
 
 go 1.21.0
 

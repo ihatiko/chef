@@ -1,4 +1,4 @@
-module github.com/ihatiko/olymp/tracer
+module github.com/ihatiko/olymp/temple/infrastucture/tracer
 
 go 1.22.0
 

@@ -1,4 +1,4 @@
-module github.com/ihatiko/olymp/logger
+module github.com/ihatiko/olymp/temple/infrastucture/logger
 
 go 1.22.0
 

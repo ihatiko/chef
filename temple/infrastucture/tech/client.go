@@ -1,9 +1,9 @@
 package tech
 
 import (
-	"github.com/ihatiko/config"
-	"github.com/ihatiko/olymp/logger"
-	"github.com/ihatiko/olymp/tracer"
+	"github.com/ihatiko/olymp/temple/infrastucture/config"
+	"github.com/ihatiko/olymp/temple/infrastucture/logger"
+	"github.com/ihatiko/olymp/temple/infrastucture/tracer"
 )
 
 func Configure(args ...string) error {

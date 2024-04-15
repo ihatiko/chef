@@ -48,18 +48,6 @@ var loggerLevelMap = map[Level]zapcore.Level{
 	Fatal:  zapcore.FatalLevel,
 }
 
-func WithAppName(appName string) Option {
-	return func(config *Config) {
-		config.AppName = appName
-	}
-}
-
-func WithDevMode(devMode bool) Option {
-	return func(config *Config) {
-		config.DevMode = devMode
-	}
-}
-
 func (c *Config) Configure(opts ...Option) {
 	for _, opt := range opts {
 		opt(c)
@@ -104,7 +92,7 @@ func (c *Config) Configure(opts ...Option) {
 	}
 
 	codeOtelZap := otelzap.New(
-		lg.Named(c.AppName),
+		lg.Named(os.Getenv("TECH_SERVER_NAME")),
 		otelzap.WithTraceIDField(true),
 		otelzap.WithMinLevel(logLevel),
 		otelzap.WithStackTrace(c.DevMode),
