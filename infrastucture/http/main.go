@@ -65,6 +65,7 @@ func (t *Transport) Run() {
 	}
 	if t.Config.Pprof {
 		go func() {
+			fmt.Println(fmt.Sprintf("Start pprof server %s", t.Config.PprofPort))
 			pprofMux := http.NewServeMux()
 			if t.Config.PprofPort == "" {
 				t.Config.PprofPort = defaultPprofPort
