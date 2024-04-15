@@ -20,9 +20,18 @@ const (
 )
 
 type Transport struct {
-	App      *http.Server
-	PprofApp *http.Server
-	Config   *Config
+	Config *Config
+}
+type Options func(*Transport)
+
+func (cfg *Config) Use(opts ...Options) *Transport {
+	t := &Transport{
+		Config: cfg,
+	}
+	for _, opt := range opts {
+		opt(t)
+	}
+	return t
 }
 
 func (t *Transport) Ready(w http.ResponseWriter, r *http.Request) {
@@ -57,6 +66,9 @@ func (t *Transport) Run() {
 	if t.Config.Pprof {
 		go func() {
 			pprofMux := http.NewServeMux()
+			if t.Config.PprofPort == "" {
+				t.Config.PprofPort = defaultPprofPort
+			}
 			pprofMux.HandleFunc("/debug/pprof/", pprof.Index)
 			pprofMux.HandleFunc("/debug/pprof/cmdline", pprof.Cmdline)
 			pprofMux.HandleFunc("/debug/pprof/profile", pprof.Profile)
