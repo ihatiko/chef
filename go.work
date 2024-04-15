@@ -4,4 +4,5 @@ use (
 	./infrastucture/tracer
 	./infrastucture/logger
 	./infrastucture/tech
+	./infrastucture/http
 )
