@@ -113,7 +113,7 @@ func (t *Transport) handler() {
 }
 
 func (t *Transport) TimeToWait() time.Duration {
-	return time.Duration(t.Config.Timeout) * time.Second
+	return t.Config.Timeout
 }
 
 func (t *Transport) Shutdown() error {

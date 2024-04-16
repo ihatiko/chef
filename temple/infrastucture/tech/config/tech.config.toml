@@ -1,9 +1,13 @@
 [tech.service]
-port = 10001
-pprof = 10002
-timeout = 5
-readTimeout = 5
-writeTimeout = 5
+name="example"
+
+[tech.http]
+Port = 8080
+PprofPort = 8081
+Pprof = true
+LivenessPath = "/liveness"
+ReadinessPath = "/readiness"
+MetricsPath = "/metrics"
 
 [tech.tracer]
 host = "http://localhost:14268/api/traces"

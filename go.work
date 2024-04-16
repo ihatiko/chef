@@ -7,4 +7,5 @@ use (
 	./temple/infrastucture/http
 	./hephaestus
 	./temple/transports/daemon
+	./example
 )

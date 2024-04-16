@@ -1,4 +1,4 @@
-package open_api_transport
+package http
 
 import (
 	"fmt"
@@ -43,26 +43,6 @@ func (t *Transport) Live(w http.ResponseWriter, r *http.Request) {
 }
 
 func (t *Transport) Run() {
-	mux := http.NewServeMux()
-	metricsPath := metrics
-	if t.Config.MetricsPath != "" {
-		metricsPath = t.Config.MetricsPath
-	}
-	livenessPath := live
-	if t.Config.LivenessPath != "" {
-		livenessPath = t.Config.LivenessPath
-	}
-	readinessPath := readiness
-	if t.Config.ReadinessPath != "" {
-		readinessPath = t.Config.ReadinessPath
-	}
-	mux.Handle(metricsPath, promhttp.Handler())
-	mux.HandleFunc(readinessPath, t.Ready)
-	mux.HandleFunc(livenessPath, t.Live)
-	fmt.Println(fmt.Sprintf("Start http server %s", t.Config.Port))
-	if t.Config.Port == "" {
-		t.Config.Port = defaultPort
-	}
 	if t.Config.Pprof {
 		go func() {
 			fmt.Println(fmt.Sprintf("Start pprof server %s", t.Config.PprofPort))
@@ -80,7 +60,29 @@ func (t *Transport) Run() {
 			}
 		}()
 	}
-	if err := http.ListenAndServe(t.Config.Port, mux); err != nil && !errors.Is(err, http.ErrServerClosed) {
-		fmt.Println(fmt.Sprintf("close http server %v", err))
-	}
+	go func() {
+		mux := http.NewServeMux()
+		metricsPath := metrics
+		if t.Config.MetricsPath != "" {
+			metricsPath = t.Config.MetricsPath
+		}
+		livenessPath := live
+		if t.Config.LivenessPath != "" {
+			livenessPath = t.Config.LivenessPath
+		}
+		readinessPath := readiness
+		if t.Config.ReadinessPath != "" {
+			readinessPath = t.Config.ReadinessPath
+		}
+		mux.Handle(metricsPath, promhttp.Handler())
+		mux.HandleFunc(readinessPath, t.Ready)
+		mux.HandleFunc(livenessPath, t.Live)
+		fmt.Println(fmt.Sprintf("Start http server %s", t.Config.Port))
+		if t.Config.Port == "" {
+			t.Config.Port = defaultPort
+		}
+		if err := http.ListenAndServe(t.Config.Port, mux); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			fmt.Println(fmt.Sprintf("close http server %v", err))
+		}
+	}()
 }

@@ -1,4 +1,4 @@
-package open_api_transport
+package http
 
 type Config struct {
 	Port          string

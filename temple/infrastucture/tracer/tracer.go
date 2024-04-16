@@ -36,7 +36,7 @@ func WithServiceName(name string) Options {
 	}
 }
 
-func (cfg *Config) SetTracer(opts ...Options) {
+func (cfg *Config) Use(opts ...Options) {
 	tracer := new(Tracer)
 	if cfg.Ratio == 0 {
 		cfg.Ratio = 0.01
