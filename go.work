@@ -6,4 +6,5 @@ use (
 	./temple/infrastucture/tech
 	./temple/infrastucture/http
 	./hephaestus
+	./temple/transports/daemon
 )

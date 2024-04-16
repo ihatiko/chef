@@ -3,6 +3,7 @@ package daemon
 import (
 	"context"
 	"errors"
+	"sync"
 	"time"
 
 	"github.com/uptrace/opentelemetry-go-extra/otelzap"
@@ -11,11 +12,13 @@ import (
 
 const (
 	defaultInterval = 10 * time.Second
+	defaultWorker   = 1
 )
 
 type Config struct {
 	Timeout  time.Duration
 	Interval time.Duration
+	Workers  int
 }
 
 type Context struct {
@@ -47,20 +50,31 @@ func (cfg *Config) Use(opts ...Options) *Transport {
 	} else {
 		t.Ticker = time.NewTicker(cfg.Interval)
 	}
+	if t.Config.Workers != 0 {
+		t.Config.Workers = defaultWorker
+	}
 
 	return t
 }
 
-func Router[T any](router H) Options {
+func Router(router func(h H)) Options {
 	return func(t *Transport) {
-		t.h = router
+		router(t.h)
 	}
 }
 
 func (t *Transport) Run() {
 	for range t.Ticker.C {
-		otelzap.S().Infof("Start ticker worker")
-		t.handler()
+		wg := &sync.WaitGroup{}
+		for i := range t.Config.Workers {
+			wg.Add(1)
+			defer wg.Done()
+			otelzap.S().Infof("Start daemon worker",
+				zap.Int("number", i+1),
+			)
+			t.handler()
+		}
+		wg.Wait()
 	}
 }
 
@@ -77,16 +91,24 @@ func (t *Transport) handler() {
 	go func() {
 		select {
 		case <-ctx.Done():
-			if ctx.Err() != nil && !errors.Is(ctx.Err(), context.Canceled) {
+			if errors.Is(ctx.Err(), context.DeadlineExceeded) {
+				otelzap.S().Warn("context deadline exceeded daemon")
+				return
+			}
+			if errors.Is(ctx.Err(), context.Canceled) {
+				otelzap.S().Warn("context canceled daemon")
+				return
+			}
+			if ctx.Err() != nil {
 				otelzap.S().Error(ctx.Err())
 			}
 		}
 	}()
 	err := t.h(Context{ctx: ctx})
 	if err != nil {
-		otelzap.S().Errorf("Error ticker worker: %v", err)
+		otelzap.S().Errorf("Error daemon worker: %v", err)
 	} else {
-		otelzap.S().Infof("Success ticker worker")
+		otelzap.S().Infof("Success ticker daemon")
 	}
 }
 
