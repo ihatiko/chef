@@ -1,8 +1,6 @@
 syntax = "proto3";
-import "google/protobuf/descriptor.proto";
-import "example/protoc/generators/generators.proto";
-package commands;
-option go_package = ".;commands";
+package planets;
+option go_package = ".;planets";
 
 message UpdatePlanetRequest {
 
@@ -12,7 +10,6 @@ message UpdatePlanetResponse {
 
 }
 
-service CommandsService{
-  option (streams.redis) = true;
-  rpc UpdateCat(UpdatePlanetRequest) returns (UpdatePlanetResponse) {}
+service PlanetsService{
+  rpc UpdatePlanet(UpdatePlanetRequest) returns (UpdatePlanetResponse) {}
 }

@@ -4,6 +4,6 @@ import (
 	"github.com/ihatiko/olymp/temple/transports/daemon"
 )
 
-type Daemon struct {
+type DaemonDeploymentExample struct {
 	Daemon daemon.Config
 }

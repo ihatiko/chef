@@ -9,6 +9,7 @@ import (
 type Service struct {
 	Name string
 }
+
 type Config struct {
 	Tech struct {
 		Service Service

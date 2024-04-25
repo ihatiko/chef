@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/ihatiko/olymp/hephaestus/iface"
+	_ "github.com/ihatiko/olymp/hephaestus/store"
 	"github.com/ihatiko/olymp/hephaestus/utils"
 	tC "github.com/ihatiko/tech-config"
 	"github.com/spf13/cobra"

@@ -8,4 +8,6 @@ use (
 	./hephaestus
 	./temple/transports/daemon
 	./example
+	./temple/transports/cron
+	./temple/transports/grpc
 )

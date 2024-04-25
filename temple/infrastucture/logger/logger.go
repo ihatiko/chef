@@ -96,6 +96,7 @@ func (c *Config) Use(opts ...Option) {
 		otelzap.WithTraceIDField(true),
 		otelzap.WithMinLevel(logLevel),
 		otelzap.WithStackTrace(c.DevMode),
+		otelzap.WithExtraFields(zap.String("deployment", os.Getenv("TECH_SERVICE_DEPLOYMENT_NAME"))),
 	)
 	otelzap.ReplaceGlobals(codeOtelZap)
 }
