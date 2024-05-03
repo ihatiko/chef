@@ -17,5 +17,11 @@ type Config struct {
 	Reflect           bool
 	MaxRecvMsgSize    int
 	Metrics           Metrics
-	Shared            *bool
+}
+
+func (c *Config) IsValid() bool {
+	if c.Port == "" {
+		return false
+	}
+	return true
 }

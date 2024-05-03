@@ -10,4 +10,5 @@ use (
 	./example
 	./temple/transports/cron
 	./temple/transports/grpc
+	./temple/components/postgresql
 )

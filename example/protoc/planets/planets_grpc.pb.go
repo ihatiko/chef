@@ -19,10 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	PlanetsService_UpdatePlanet_FullMethodName = "/planets.PlanetsService/UpdatePlanet"
+	PlanetsService_UpdatePlanet_FullMethodName = "/planets.PlanetsGrpcService/UpdatePlanet"
 )
 
-// PlanetsServiceClient is the client API for PlanetsService service.
+// PlanetsServiceClient is the client API for PlanetsGrpcService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PlanetsServiceClient interface {
@@ -46,7 +46,7 @@ func (c *planetsServiceClient) UpdatePlanet(ctx context.Context, in *UpdatePlane
 	return out, nil
 }
 
-// PlanetsServiceServer is the server API for PlanetsService service.
+// PlanetsServiceServer is the server API for PlanetsGrpcService service.
 // All implementations should embed UnimplementedPlanetsServiceServer
 // for forward compatibility
 type PlanetsServiceServer interface {
@@ -90,11 +90,11 @@ func _PlanetsService_UpdatePlanet_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-// PlanetsService_ServiceDesc is the grpc.ServiceDesc for PlanetsService service.
+// PlanetsService_ServiceDesc is the grpc.ServiceDesc for PlanetsGrpcService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var PlanetsService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "planets.PlanetsService",
+	ServiceName: "planets.PlanetsGrpcService",
 	HandlerType: (*PlanetsServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{

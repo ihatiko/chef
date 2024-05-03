@@ -3,5 +3,5 @@ package config
 import "github.com/ihatiko/olymp/temple/transports/cron"
 
 type Cron struct {
-	Cron cron.Config
+	Cron cron.Config `toml:"cron"`
 }

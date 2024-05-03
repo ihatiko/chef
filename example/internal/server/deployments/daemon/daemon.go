@@ -9,11 +9,11 @@ import (
 
 type DaemonDeploymentExample struct {
 	config.DaemonDeploymentExample
-	transport planets.IPlanetsTransport
+	transport planets.ITransport
 }
 
 func (d DaemonDeploymentExample) Run() {
-	app.Deployment(
+	app.Modules(
 		d.Daemon.Use().Routing(d.transport.Load),
 	)
 }

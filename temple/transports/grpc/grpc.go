@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net"
 	"runtime/debug"
+	"sync"
 	"time"
 
 	"github.com/google/uuid"
@@ -28,9 +29,11 @@ import (
 
 const componentName = "grpc"
 
-type SingletonTransport struct {
-	Transport Transport
-}
+var transport map[string]Transport = make(map[string]Transport)
+var active map[string]struct{} = make(map[string]struct{})
+var shutdown map[string]struct{} = make(map[string]struct{})
+
+var mt sync.Mutex
 
 type Transport struct {
 	App *grpc.Server
@@ -73,9 +76,11 @@ func (t Transport) Name() string {
 func (cfg *Config) Use(
 	opts ...Options,
 ) Transport {
-	Once.Do(func() {
-
-	})
+	mt.Lock()
+	if t, ok := transport[cfg.Port]; ok {
+		defer mt.Unlock()
+		return t
+	}
 	t := new(Transport)
 	t.Cfg = cfg
 	if t.Cfg.Metrics.EnableHandlingTimeHistogram {
@@ -126,7 +131,8 @@ func (cfg *Config) Use(
 	if t.Cfg.Reflect {
 		reflection.Register(t.App)
 	}
-
+	transport[cfg.Port] = *t
+	mt.Unlock()
 	return *t
 }
 
@@ -138,6 +144,11 @@ func (t Transport) Routing(registrar grpc.ServiceDesc, impl any) Transport {
 
 // Запуск транспортного слоя
 func (t Transport) Run() {
+	mt.Lock()
+	if _, ok := active[t.Cfg.Port]; ok {
+		defer mt.Unlock()
+		return
+	}
 	otelzap.S().Info("starting gRPC Transport ...")
 	listener, err := net.Listen("tcp", t.Cfg.Port)
 	if err != nil {
@@ -149,6 +160,8 @@ func (t Transport) Run() {
 		healthz.RegisterHealthServer(t.App, d)
 		otelzap.S().Info("init healthz check point ... done")
 	}
+	active[t.Cfg.Port] = struct{}{}
+	mt.Unlock()
 	err = t.App.Serve(listener)
 	if err != nil {
 		if errors.Is(err, grpc.ErrServerStopped) {
@@ -173,6 +186,13 @@ func (t Transport) TimeToWait() time.Duration {
 
 // Безопасное выключение сервера (gracefull)
 func (t Transport) Shutdown() error {
+	mt.Lock()
+	if _, ok := shutdown[t.Cfg.Port]; ok {
+		defer mt.Unlock()
+		return nil
+	}
 	t.App.GracefulStop()
+	shutdown[t.Cfg.Port] = struct{}{}
+	mt.Unlock()
 	return nil
 }

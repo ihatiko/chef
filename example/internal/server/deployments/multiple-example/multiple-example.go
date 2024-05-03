@@ -1,7 +1,8 @@
-package daemon
+package multiple_example
 
 import (
 	"example/config"
+	"example/internal/features/characters"
 	"example/internal/features/planets"
 
 	"github.com/ihatiko/olymp/hephaestus/app"
@@ -9,13 +10,15 @@ import (
 
 type MultipleExample struct {
 	config.MultipleExample
-	iplanetsTransport planets.IPlanetsTransport
+	iplanetsTransport    planets.ITransport
+	icharactersTransport characters.ICharactersTransport
 }
 
 func (d MultipleExample) Run() {
-	app.Deployment(
+	app.Modules(
 		d.Daemon.Use().Routing(d.iplanetsTransport.Load),
 		d.Cron.Use().Routing(d.iplanetsTransport.Update),
-		d.PlanetsGrpc.Use().Routing(d.iplanetsTransport),
+		d.PlanetsGrpcService.Use().Routing(d.iplanetsTransport),
+		d.CharactersGrpcService.Use().Routing(d.icharactersTransport),
 	)
 }

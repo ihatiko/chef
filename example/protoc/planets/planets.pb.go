@@ -132,8 +132,8 @@ var file_protoc_planets_planets_proto_goTypes = []interface{}{
 	(*UpdatePlanetResponse)(nil), // 1: planets.UpdatePlanetResponse
 }
 var file_protoc_planets_planets_proto_depIdxs = []int32{
-	0, // 0: planets.PlanetsService.UpdatePlanet:input_type -> planets.UpdatePlanetRequest
-	1, // 1: planets.PlanetsService.UpdatePlanet:output_type -> planets.UpdatePlanetResponse
+	0, // 0: planets.PlanetsGrpcService.UpdatePlanet:input_type -> planets.UpdatePlanetRequest
+	1, // 1: planets.PlanetsGrpcService.UpdatePlanet:output_type -> planets.UpdatePlanetResponse
 	1, // [1:2] is the sub-list for method output_type
 	0, // [0:1] is the sub-list for method input_type
 	0, // [0:0] is the sub-list for extension type_name

@@ -1,42 +1,37 @@
 [tech.service]
 # имя сервиса
-name="example"
+name = "example"
+# режим дебага
+debug = true
 
 [daemon]
 # таймаут на выполнение тикера
-timeout="30s"
+timeout = "30s"
 # как часто вызывается тикер
-interval="10s"
+interval = "10s"
 # количество паралельный воркеров через горутины
-workers=1
+workers = 1
 
 [cron]
 # таймаут на выполнение кроны
-timeout="30s"
+timeout = "30s"
 # количество паралельный воркеров через горутины
-workers=1
+workers = 1
 
 [grpc]
-# порт который слушвает grpc - сервер
-port=":8082"
-# таймаут на выполнение запроса
-timeout="5s"
-# TODO
-time="10s"
-# TODO
-max-connection-age="10s"
-# TODO
-max-connection-idle="10s"
-# healthz на grpc
-healthz=true
-# рефлект для сканирования точек входа по grpc
-reflect=true
-# будет ли использоваться 1 вебсервер для нескольких сервисов
-shared=true
+port = ":8082"
 
-[planets-grpc-servce]
+[read-postgresql]
+host="localhost"
+port=5432
+database="example"
+user="postgres"
+password="postgres"
 
-[characters-grpc-service]
-
-
+[write-postgresql]
+host="localhost"
+port=5432
+database="example"
+user="postgres"
+password="postgres"
 

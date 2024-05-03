@@ -3,6 +3,9 @@ package commands
 import (
 	"fmt"
 	"os"
+	"reflect"
+	"runtime/debug"
+	"strings"
 
 	"github.com/ihatiko/olymp/hephaestus/iface"
 	_ "github.com/ihatiko/olymp/hephaestus/store"
@@ -27,7 +30,40 @@ func WithDeployment[Deployment iface.IDeployment]() deployment {
 		return &cobra.Command{
 			Use: utils.ParseTypeName[Deployment](),
 			Run: func(cmd *cobra.Command, args []string) {
+				defer func() {
+					if r := recover(); r != nil {
+						stack := string(debug.Stack())
+						elements := strings.Split(string(stack), "\n")
+						resultError := ""
+						for index, i := range elements {
+							if strings.Contains(i, "/internal/server/deployments") {
+								resultError = strings.Join(elements[index:index+2], "\n")
+								break
+							}
+						}
+						name := reflect.TypeOf(*d).String()
+						fmt.Println(fmt.Sprintf("Recovered in core (Run) [%s] \n error: %s", name, resultError))
+					}
+				}()
+				commandName := utils.ParseTypeName[Deployment]()
+				os.Setenv("TECH_SERVICE_COMMAND", commandName)
 				app := (*d).Dep()
+				rApp := reflect.ValueOf(app)
+				var collectErrors []string
+				for i := 0; i < rApp.NumField(); i++ {
+					if rApp.Field(i).IsZero() {
+						msg := fmt.Sprintf("empty field %s %s", rApp.Type().Field(i).Name, rApp.Type().Field(i).Type)
+						collectErrors = append(collectErrors, msg)
+					}
+				}
+				if len(collectErrors) != 0 {
+					name := reflect.TypeOf(*d).String()
+					fmt.Println(fmt.Sprintf("Error construct deployment [%s] with command %s", name, commandName))
+					fmt.Println("-----------------------")
+					fmt.Println(strings.Join(collectErrors, "\n"))
+					fmt.Println("-----------------------")
+					os.Exit(1)
+				}
 				app.Run()
 			},
 		}, nil

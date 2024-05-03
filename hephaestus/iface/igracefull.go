@@ -1,7 +1,6 @@
 package iface
 
 import (
-	"context"
 	"time"
 )
 
@@ -18,10 +17,5 @@ type IAfterLifecycleComponent interface {
 type IShutdownComponent interface {
 	TimeToWait() time.Duration
 	Shutdown() error
-	Name() string
-}
-
-type ILive interface {
-	Live(ctx context.Context) error
 	Name() string
 }

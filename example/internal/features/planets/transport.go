@@ -7,7 +7,7 @@ import (
 	"github.com/ihatiko/olymp/temple/transports/daemon"
 )
 
-type IPlanetsTransport interface {
+type ITransport interface {
 	protoPlanets.PlanetsServiceServer
 	Load(request daemon.Request) error
 	Update(request cron.Request) error
