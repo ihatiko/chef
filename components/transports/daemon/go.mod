@@ -1,4 +1,4 @@
-module github.com/ihatiko/olymp/temple/transports/daemon
+module github.com/ihatiko/olymp/components/transports/daemon
 
 go 1.22.0
 

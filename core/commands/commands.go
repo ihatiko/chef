@@ -7,11 +7,11 @@ import (
 	"runtime/debug"
 	"strings"
 
+	tC "github.com/ihatiko/olymp/components/clients/config"
 	"github.com/ihatiko/olymp/components/clients/tech"
 	"github.com/ihatiko/olymp/core/iface"
 	_ "github.com/ihatiko/olymp/core/store"
 	"github.com/ihatiko/olymp/core/utils"
-	tC "github.com/ihatiko/tech-config"
 	"github.com/spf13/cobra"
 )
 
@@ -23,29 +23,24 @@ type deployment = func() (*cobra.Command, error)
 // Deployment any -> Структура которая распологается по пути internal/server/deployments
 func WithDeployment[Deployment iface.IDeployment]() deployment {
 	return func() (*cobra.Command, error) {
-		d := new(Deployment)
-		err := tC.ToConfig(d)
-		if err != nil {
-			return nil, err
-		}
+
 		return &cobra.Command{
 			Use: utils.ParseTypeName[Deployment](),
 			Run: func(cmd *cobra.Command, args []string) {
+				d := new(Deployment)
+
 				defer func() {
 					if r := recover(); r != nil {
 						stack := string(debug.Stack())
-						elements := strings.Split(string(stack), "\n")
-						resultError := ""
-						for index, i := range elements {
-							if strings.Contains(i, "/internal/server/deployments") {
-								resultError = strings.Join(elements[index:index+2], "\n")
-								break
-							}
-						}
 						name := reflect.TypeOf(*d).String()
-						fmt.Println(fmt.Sprintf("Recovered in core (Run) [%s] \n error: %s", name, resultError))
+						fmt.Println(fmt.Sprintf("Recovered in core (Run) [%s] \n error: %s", name, stack))
 					}
 				}()
+				err := tC.ToConfig(d)
+				if err != nil {
+					fmt.Println("Error in config:", err)
+					return
+				}
 				commandName := utils.ParseTypeName[Deployment]()
 				os.Setenv("TECH_SERVICE_COMMAND", commandName)
 				app := (*d).Dep()

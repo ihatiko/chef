@@ -3,9 +3,11 @@ package cron
 import (
 	"context"
 	"errors"
+	"fmt"
 	"sync"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/uptrace/opentelemetry-go-extra/otelzap"
 	"go.uber.org/zap"
 )
@@ -30,11 +32,10 @@ type h func(context Request) error
 type transport struct {
 	Config *Config
 	h      h
-	Ticker *time.Ticker
 }
 
 func (t transport) Name() string {
-	return componentName
+	return fmt.Sprintf("%s id: %s", componentName, uuid.New().String())
 }
 
 type Options func(*transport)
@@ -118,6 +119,5 @@ func (t transport) TimeToWait() time.Duration {
 }
 
 func (t transport) Shutdown() error {
-	t.Ticker.Stop()
 	return nil
 }

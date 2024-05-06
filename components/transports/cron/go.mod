@@ -1,3 +1,3 @@
-module github.com/ihatiko/olymp/temple/transports/cron
+module github.com/ihatiko/olymp/components/transports/cron
 
 go 1.22.0

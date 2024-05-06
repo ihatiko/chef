@@ -19,7 +19,7 @@ timeout = "30s"
 workers = 1
 
 [grpc]
-port = ":8082"
+port = ":10001"
 
 [read-postgresql]
 host="localhost"
@@ -35,3 +35,8 @@ database="example"
 user="postgres"
 password="postgres"
 
+[redis]
+addr = "localhost:6379"
+db = 0
+masterName = "mymaster"
+sentinelAddrs = [":26379", ":26379", ":26379"]

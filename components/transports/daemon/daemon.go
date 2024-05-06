@@ -3,9 +3,11 @@ package daemon
 import (
 	"context"
 	"errors"
+	"fmt"
 	"sync"
 	"time"
 
+	"github.com/google/uuid"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/uptrace/opentelemetry-go-extra/otelzap"
@@ -46,7 +48,7 @@ type transport struct {
 type Options func(*transport)
 
 func (t transport) Name() string {
-	return componentName
+	return fmt.Sprintf("%s id: %s", componentName, uuid.New().String())
 }
 
 func (cfg *Config) Use(opts ...Options) transport {

@@ -2,7 +2,7 @@ package multiple_example
 
 import (
 	"example/config"
-	"example/internal/features/characters"
+	"example/internal/features/peoples"
 	"example/internal/features/planets"
 
 	"github.com/ihatiko/olymp/core/app"
@@ -10,15 +10,15 @@ import (
 
 type MultipleExample struct {
 	config.MultipleExample
-	iplanetsTransport    planets.ITransport
-	icharactersTransport characters.ICharactersTransport
+	iPlanetsTransport planets.ITransport
+	iPeoplesTransport peoples.ITransport
 }
 
 func (d MultipleExample) Run() {
 	app.Modules(
-		d.Daemon.Use().Routing(d.iplanetsTransport.Load),
-		d.Cron.Use().Routing(d.iplanetsTransport.Update),
-		d.PlanetsGrpcService.Use().Routing(d.iplanetsTransport),
-		d.CharactersGrpcService.Use().Routing(d.icharactersTransport),
+		d.Daemon.Use().Routing(d.iPlanetsTransport.Load),
+		d.Cron.Use().Routing(d.iPlanetsTransport.Update),
+		d.PlanetsGrpcService.Use().Routing(d.iPlanetsTransport),
+		d.CharactersGrpcService.Use().Routing(d.iPeoplesTransport),
 	)
 }

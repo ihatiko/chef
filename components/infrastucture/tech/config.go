@@ -12,14 +12,14 @@ import (
 var defaultConfig []byte
 
 type Service struct {
-	Name string
+	Name string `toml:"name"`
 }
 
 type Config struct {
 	Tech struct {
-		Service Service
-		Log     logger.Config
-		Tracer  tracer.Config
-		Http    http.Config
-	}
+		Service Service       `toml:"service"`
+		Log     logger.Config `toml:"log"`
+		Tracer  tracer.Config `toml:"tracer"`
+		Http    http.Config   `toml:"http"`
+	} `toml:"tech"`
 }

@@ -1,8 +1,8 @@
 package planets
 
 import (
-	"github.com/ihatiko/olymp/temple/transports/cron"
-	"github.com/ihatiko/olymp/temple/transports/daemon"
+	"github.com/ihatiko/olymp/components/transports/cron"
+	"github.com/ihatiko/olymp/components/transports/daemon"
 )
 
 type IService interface {

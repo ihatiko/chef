@@ -11,7 +11,7 @@ go install github.com/ihatiko/olymp/protoc-gen-go-connectors
 
 package planets
 
-import "github.com/ihatiko/olymp/temple/transports/grpc"
+import "github.com/ihatiko/olymp/components/transports/grpc"
 
 const (
 	sdkGrpcName = "Grpc PlanetsService"

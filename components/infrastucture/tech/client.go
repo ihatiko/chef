@@ -3,7 +3,7 @@ package tech
 import (
 	"fmt"
 
-	"github.com/BurntSushi/toml"
+	toml "github.com/pelletier/go-toml"
 )
 
 func Use(arg string) error {
@@ -17,8 +17,8 @@ func Use(arg string) error {
 		return e
 	}
 	//TODO env rewrite
-	c.Tech.Http.Use().Run()
-	c.Tech.Log.Use()
-	c.Tech.Tracer.Use()
+	c.Tech.Http.New().Run()
+	c.Tech.Log.New()
+	c.Tech.Tracer.New()
 	return err
 }

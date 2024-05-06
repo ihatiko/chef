@@ -2,9 +2,7 @@ module github.com/ihatiko/olymp/components/clients/tech
 
 go 1.21.0
 
-require (
-	github.com/ihatiko/config v0.0.5
-)
+require github.com/ihatiko/config v0.0.5
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect
@@ -17,6 +15,7 @@ require (
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.4 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
+	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.7 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.16.0 // indirect

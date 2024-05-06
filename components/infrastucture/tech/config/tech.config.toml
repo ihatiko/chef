@@ -1,6 +1,8 @@
 [tech.service]
+# имя сервиса
 name = "example"
-debug= "true"
+# режим дебага
+debug = true
 
 [tech.http]
 port = 8080
@@ -21,4 +23,3 @@ ratio = 5
 [tech.log]
 encoding = "json"
 level = "info"
-devMode = false

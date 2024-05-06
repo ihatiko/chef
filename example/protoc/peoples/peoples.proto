@@ -1,0 +1,15 @@
+syntax = "proto3";
+package characters;
+option go_package = "..;peoples";
+
+message UpdatePeopleRequest {
+
+}
+
+message UpdatePeopleResponse {
+
+}
+
+service PeoplesService{
+  rpc UpdatePeople(UpdatePeopleRequest) returns (UpdatePeopleResponse) {}
+}

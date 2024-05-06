@@ -34,7 +34,7 @@ type Transport struct {
 }
 type Options func(*Transport)
 
-func (cfg *Config) Use(opts ...Options) *Transport {
+func (cfg *Config) New(opts ...Options) *Transport {
 	t := &Transport{
 		Config: cfg,
 	}
@@ -144,7 +144,7 @@ func (t *Transport) Run() {
 		mux.Handle(metricsPath, promhttp.Handler())
 		mux.HandleFunc(readinessPath, t.Ready)
 		mux.HandleFunc(livenessPath, t.Live)
-		fmt.Println(fmt.Sprintf("Start http server port: %d", t.Config.Port))
+		fmt.Println(fmt.Sprintf("Start tech-http server port: %d", t.Config.Port))
 		if t.Config.Port == 0 {
 			t.Config.Port = defaultPort
 		}

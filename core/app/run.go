@@ -22,7 +22,13 @@ type SharedComponents map[string][]iface.IComponent
 func Modules(components ...iface.IComponent) {
 	app := new(App)
 	app.context = context.Background()
-	app.Components = components
+	buffer := map[string]struct{}{}
+	for _, component := range components {
+		if _, ok := buffer[component.Name()]; !ok {
+			buffer[component.Name()] = struct{}{}
+			app.Components = append(app.Components, component)
+		}
+	}
 	for _, pkg := range store.PackageStore.Get() {
 		level := zap.FatalLevel
 		if env := os.Getenv("TECH_SERVICE_DEBUG"); env != "" {

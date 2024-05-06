@@ -16,7 +16,7 @@ import (
 	grpcCtxtags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
 	grpcOpentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 	grpcPrometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
-	"github.com/ihatiko/olymp/temple/transports/grpc/protoc/health"
+	healthz "github.com/ihatiko/olymp/components/transports/grpc/protoc/health"
 	"github.com/uptrace/opentelemetry-go-extra/otelzap"
 	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
 	"go.uber.org/zap"
@@ -69,7 +69,7 @@ func logPanic(p any) error {
 	return status.Errorf(codes.Internal, "panic (id: %s)", panicID)
 }
 func (t Transport) Name() string {
-	return componentName
+	return fmt.Sprintf("%s port: %s", componentName, t.Cfg.Port)
 }
 
 // Инициализация транспортного слоя grpc
@@ -77,6 +77,9 @@ func (cfg *Config) Use(
 	opts ...Options,
 ) Transport {
 	mt.Lock()
+	if cfg.Port == "" {
+		cfg.Port = defaultPort
+	}
 	if t, ok := transport[cfg.Port]; ok {
 		defer mt.Unlock()
 		return t
@@ -149,7 +152,7 @@ func (t Transport) Run() {
 		defer mt.Unlock()
 		return
 	}
-	otelzap.S().Info("starting gRPC Transport ...")
+	otelzap.S().Infof("starting gRPC Transport port: %s ...", t.Cfg.Port)
 	listener, err := net.Listen("tcp", t.Cfg.Port)
 	if err != nil {
 		otelzap.S().Fatal(err)
@@ -168,7 +171,6 @@ func (t Transport) Run() {
 			return
 		}
 		if errors.Is(err, context.Canceled) {
-			otelzap.S().Warn(err)
 			return
 		}
 		if errors.Is(err, context.DeadlineExceeded) {

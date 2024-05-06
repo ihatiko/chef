@@ -2,6 +2,7 @@ package logger
 
 import (
 	"os"
+	"strconv"
 
 	"github.com/uptrace/opentelemetry-go-extra/otelzap"
 	"go.uber.org/zap"
@@ -13,8 +14,6 @@ type Option = func(config *Config)
 type Config struct {
 	Encoding string
 	Level    Level
-	DevMode  bool
-	AppName  string
 }
 
 func (c *Config) GetLoggerLevel() zapcore.Level {
@@ -48,16 +47,21 @@ var loggerLevelMap = map[Level]zapcore.Level{
 	Fatal:  zapcore.FatalLevel,
 }
 
-func (c *Config) Use(opts ...Option) {
+func (c *Config) New(opts ...Option) {
 	for _, opt := range opts {
 		opt(c)
 	}
 	logLevel := c.GetLoggerLevel()
 	logWriter := zapcore.AddSync(os.Stdout)
-
+	var devState bool
 	var encoderCfg zapcore.EncoderConfig
-	if c.DevMode {
-		encoderCfg = zap.NewDevelopmentEncoderConfig()
+	if env := os.Getenv("TECH_SERVICE_DEBUG"); env != "" {
+		if state, err := strconv.ParseBool(env); err == nil {
+			if state {
+				encoderCfg = zap.NewDevelopmentEncoderConfig()
+				devState = true
+			}
+		}
 	} else {
 		encoderCfg = zap.NewProductionEncoderConfig()
 	}
@@ -87,15 +91,12 @@ func (c *Config) Use(opts ...Option) {
 	core := zapcore.NewCore(encoder, logWriter, zap.NewAtomicLevelAt(logLevel))
 
 	lg := zap.New(core)
-	if c.DevMode {
-		lg = zap.New(core, zap.AddCaller(), zap.AddCallerSkip(1))
-	}
 
 	codeOtelZap := otelzap.New(
 		lg.Named(os.Getenv("TECH_SERVICE_NAME")),
 		otelzap.WithTraceIDField(true),
 		otelzap.WithMinLevel(logLevel),
-		otelzap.WithStackTrace(c.DevMode),
+		otelzap.WithStackTrace(devState),
 		otelzap.WithExtraFields(zap.String("deployment", os.Getenv("TECH_SERVICE_DEPLOYMENT_NAME"))),
 	)
 	otelzap.ReplaceGlobals(codeOtelZap)

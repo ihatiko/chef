@@ -6,8 +6,8 @@ import (
 	protoPlanets "example/protoc/planets"
 	"fmt"
 
-	"github.com/ihatiko/olymp/temple/transports/cron"
-	"github.com/ihatiko/olymp/temple/transports/daemon"
+	"github.com/ihatiko/olymp/components/transports/cron"
+	"github.com/ihatiko/olymp/components/transports/daemon"
 )
 
 type transport struct {
@@ -29,6 +29,6 @@ func (t transport) Load(request daemon.Request) error {
 }
 
 func (t transport) Update(request cron.Request) error {
-	//TODO implement me
-	panic("implement me")
+	fmt.Println(123)
+	return nil
 }

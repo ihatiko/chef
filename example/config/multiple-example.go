@@ -1,19 +1,21 @@
 package config
 
 import (
-	protoCharacters "example/protoc/characters"
+	protoPeoples "example/protoc/peoples"
 	protoPlanets "example/protoc/planets"
 
 	"github.com/ihatiko/olymp/components/clients/postgresql"
-	"github.com/ihatiko/olymp/temple/transports/cron"
-	"github.com/ihatiko/olymp/temple/transports/daemon"
+	"github.com/ihatiko/olymp/components/clients/redis"
+	"github.com/ihatiko/olymp/components/transports/cron"
+	"github.com/ihatiko/olymp/components/transports/daemon"
 )
 
 type MultipleExample struct {
-	Cron                  cron.Config                      `toml:"cron"`
-	Daemon                daemon.Config                    `toml:"daemon"`
-	PlanetsGrpcService    protoPlanets.PlanetsConfig       `toml:"grpc"`
-	CharactersGrpcService protoCharacters.CharactersConfig `toml:"grpc"`
-	ReadPostgreSql        postgresql.Config                `toml:"read-postgresql"`
-	WritePostgreSql       postgresql.Config                `toml:"read-postgresql"`
+	Cron                  cron.Config                `toml:"cron"`
+	Daemon                daemon.Config              `toml:"daemon"`
+	PlanetsGrpcService    protoPlanets.PlanetsConfig `toml:"grpc"`
+	CharactersGrpcService protoPeoples.PeoplesConfig `toml:"grpc"`
+	ReadPostgreSQL        postgresql.Config          `toml:"read-postgresql"`
+	WritePostgreSQL       postgresql.Config          `toml:"write-postgresql"`
+	Redis                 redis.Config               `toml:"redis"`
 }

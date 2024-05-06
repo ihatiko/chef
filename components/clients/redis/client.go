@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/ihatiko/olymp/core/store"
 	"github.com/redis/go-redis/extra/redisotel/v9"
 	"github.com/redis/go-redis/v9"
 )
@@ -87,5 +88,6 @@ func (c *Config) New() Client {
 		return client
 	}
 	client.err = client.Db.Ping(context.Background()).Err()
+	store.PackageStore.Load(client)
 	return client
 }

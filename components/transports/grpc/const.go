@@ -9,4 +9,5 @@ const (
 	timeDefault              = time.Second * 10
 	maxConnectionIdleDefault = time.Hour
 	naxConnectionAgeDefault  = time.Hour
+	defaultPort              = ":10001"
 )

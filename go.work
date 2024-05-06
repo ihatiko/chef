@@ -12,4 +12,5 @@ use (
 	./components/transports/grpc
 	./components/clients/postgresql
 	./components/clients/redis
+	./components/infrastucture/config
 )

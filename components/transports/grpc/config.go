@@ -2,11 +2,6 @@ package grpc
 
 import "time"
 
-type Metrics struct {
-	EnableHandlingTimeHistogram       bool
-	EnableClientHandlingTimeHistogram bool
-}
-
 type Config struct {
 	Port              string
 	TimeOut           time.Duration
@@ -16,7 +11,10 @@ type Config struct {
 	Healthz           bool
 	Reflect           bool
 	MaxRecvMsgSize    int
-	Metrics           Metrics
+	Metrics           struct {
+		EnableHandlingTimeHistogram       bool
+		EnableClientHandlingTimeHistogram bool
+	}
 }
 
 func (c *Config) IsValid() bool {
