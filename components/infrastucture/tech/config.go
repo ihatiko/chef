@@ -3,9 +3,9 @@ package tech
 import (
 	_ "embed"
 
-	"github.com/ihatiko/olymp/temple/infrastucture/http"
-	"github.com/ihatiko/olymp/temple/infrastucture/logger"
-	"github.com/ihatiko/olymp/temple/infrastucture/tracer"
+	"github.com/ihatiko/olymp/components/clients/http"
+	"github.com/ihatiko/olymp/components/clients/logger"
+	"github.com/ihatiko/olymp/components/clients/tracer"
 )
 
 //go:embed config/tech.config.toml

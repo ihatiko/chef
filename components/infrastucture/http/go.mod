@@ -1,4 +1,4 @@
-module github.com/ihatiko/olymp/temple/infrastucture/http
+module github.com/ihatiko/olymp/components/clients/http
 
 go 1.22.0
 

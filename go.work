@@ -1,14 +1,15 @@
 go 1.22.0
 
 use (
+	./example
+	./core
 	./components/infrastucture/tracer
 	./components/infrastucture/logger
 	./components/infrastucture/tech
 	./components/infrastucture/http
-	./core
 	./components/transports/daemon
-	./example
 	./components/transports/cron
 	./components/transports/grpc
 	./components/clients/postgresql
+	./components/clients/redis
 )

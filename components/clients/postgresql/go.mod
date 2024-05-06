@@ -1,4 +1,4 @@
-module github.com/ihatiko/olymp/temple/infrastucture/postgresql
+module github.com/ihatiko/olymp/components/clients/postgresql
 
 go 1.22.0
 

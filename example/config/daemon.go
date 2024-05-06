@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/ihatiko/olymp/temple/infrastucture/postgresql"
+	"github.com/ihatiko/olymp/components/clients/postgresql"
 	"github.com/ihatiko/olymp/temple/transports/daemon"
 )
 

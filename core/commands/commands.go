@@ -7,10 +7,10 @@ import (
 	"runtime/debug"
 	"strings"
 
+	"github.com/ihatiko/olymp/components/clients/tech"
 	"github.com/ihatiko/olymp/core/iface"
 	_ "github.com/ihatiko/olymp/core/store"
 	"github.com/ihatiko/olymp/core/utils"
-	"github.com/ihatiko/olymp/temple/infrastucture/tech"
 	tC "github.com/ihatiko/tech-config"
 	"github.com/spf13/cobra"
 )

@@ -3,7 +3,7 @@ package read
 import (
 	"example/internal/features/planets"
 
-	"github.com/ihatiko/olymp/temple/infrastucture/postgresql"
+	"github.com/ihatiko/olymp/components/clients/postgresql"
 )
 
 type repositoty struct {
