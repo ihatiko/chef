@@ -19,11 +19,11 @@ func (a *App) Graceful(components []iface.IComponent) {
 	otelzap.L().Info("starting shutdown ...")
 	a.Shutdown(components)
 	otelzap.L().Info("starting shutdown ... done")
-	otelzap.L().Info("starting delay for components ...")
+	otelzap.L().Info("starting delay [terminating old requests] ...")
 	Delay(
 		components...,
 	)
-	otelzap.L().Info("starting delay for components ... done")
+	otelzap.L().Info("starting delay [terminating old requests] ... done")
 	otelzap.L().Info("starting gracefull after components...")
 	a.AfterShutdown(components)
 	otelzap.L().Info("starting gracefull after components... done")
