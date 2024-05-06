@@ -6,17 +6,17 @@ import (
 	"github.com/ihatiko/olymp/temple/infrastucture/postgresql"
 )
 
-type Repositoty struct {
+type repositoty struct {
 	client postgresql.Client
 }
 
-func (r Repositoty) Get() error {
+func (r repositoty) Get() error {
 	//TODO implement me
 	panic("implement me")
 }
 
 func New(db postgresql.Client) planets.IReadRepository {
-	r := new(Repositoty)
+	r := new(repositoty)
 	r.client = db
 	return r
 }

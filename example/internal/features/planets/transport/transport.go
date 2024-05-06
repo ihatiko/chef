@@ -4,30 +4,31 @@ import (
 	"context"
 	"example/internal/features/planets"
 	protoPlanets "example/protoc/planets"
+	"fmt"
 
 	"github.com/ihatiko/olymp/temple/transports/cron"
 	"github.com/ihatiko/olymp/temple/transports/daemon"
 )
 
-type Transport struct {
+type transport struct {
 	service planets.IService
 }
 
 func New(service planets.IService) planets.ITransport {
-	return &Transport{}
+	return &transport{}
 }
 
-func (t Transport) UpdatePlanet(ctx context.Context, request *protoPlanets.UpdatePlanetRequest) (*protoPlanets.UpdatePlanetResponse, error) {
+func (t transport) UpdatePlanet(ctx context.Context, request *protoPlanets.UpdatePlanetRequest) (*protoPlanets.UpdatePlanetResponse, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (t Transport) Load(request daemon.Request) error {
-	//TODO implement me
-	panic("implement me")
+func (t transport) Load(request daemon.Request) error {
+	fmt.Println(123)
+	return nil
 }
 
-func (t Transport) Update(request cron.Request) error {
+func (t transport) Update(request cron.Request) error {
 	//TODO implement me
 	panic("implement me")
 }

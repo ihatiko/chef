@@ -10,6 +10,7 @@ import (
 	"github.com/ihatiko/olymp/hephaestus/iface"
 	_ "github.com/ihatiko/olymp/hephaestus/store"
 	"github.com/ihatiko/olymp/hephaestus/utils"
+	"github.com/ihatiko/olymp/temple/infrastucture/tech"
 	tC "github.com/ihatiko/tech-config"
 	"github.com/spf13/cobra"
 )
@@ -93,15 +94,15 @@ func Compile(rootCommand *cobra.Command, err error) {
 		os.Exit(1)
 	}
 	if len(os.Args) > 1 {
-		arg := []string{os.Args[1]}
+		arg := os.Args[1]
 		if os.Args[1] == "-test.v" {
-			arg = []string{os.Getenv("TEST_COMMAND")}
+			arg = os.Getenv("TEST_COMMAND")
 		}
-		rootCommand.SetArgs(arg)
-		//err := tech_components.Configure(os.Args[1])
-		//if err != nil {
-		//	fmt.Println(err)
-		//}
+		rootCommand.SetArgs([]string{arg})
+		err := tech.Use(arg)
+		if err != nil {
+			os.Exit(1)
+		}
 	}
 
 	err = rootCommand.Execute()

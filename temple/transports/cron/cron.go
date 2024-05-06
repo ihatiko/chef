@@ -72,11 +72,11 @@ func (t transport) Run() {
 		wg.Add(1)
 		defer wg.Done()
 		otelzap.L().Info("Start cron worker",
-			zap.Int("number", i+1),
+			zap.Int("worker", i+1),
 		)
 		t.handler(i + 1)
 		otelzap.L().Info("End cron worker",
-			zap.Int("number", i+1),
+			zap.Int("worker", i+1),
 		)
 	}
 	wg.Wait()
@@ -100,7 +100,6 @@ func (t transport) handler(id int) {
 				return
 			}
 			if errors.Is(ctx.Err(), context.Canceled) {
-				otelzap.S().Warn("context canceled daemon")
 				return
 			}
 			if ctx.Err() != nil {

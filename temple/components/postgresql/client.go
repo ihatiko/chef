@@ -7,6 +7,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/ihatiko/olymp/hephaestus/store"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/jmoiron/sqlx"
 	"github.com/pkg/errors"
@@ -66,10 +67,17 @@ func (c *Config) toPgConnection() string {
 type Client struct {
 	Db  *sqlx.DB
 	cfg *Config
+	err error
 }
 
 func (c Client) Live(ctx context.Context) error {
 	return c.Db.PingContext(ctx)
+}
+func (c Client) Error() error {
+	return c.err
+}
+func (c Client) HasError() bool {
+	return c.err != nil
 }
 
 func (c Client) Name() string {
@@ -78,9 +86,8 @@ func (c Client) Name() string {
 
 func (cfg *Config) New() Client {
 	pg, err := cfg.newConnection()
-	c := Client{Db: pg, cfg: cfg}
-	if err != nil {
-	}
+	c := Client{Db: pg, cfg: cfg, err: err}
+	store.PackageStore.Load(c)
 	return c
 }
 

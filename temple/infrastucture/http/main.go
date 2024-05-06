@@ -21,8 +21,8 @@ const (
 	readiness = "/readiness"
 )
 const (
-	defaultPprofPort = ":8081"
-	defaultPort      = ":8080"
+	defaultPprofPort = 8081
+	defaultPort      = 8080
 )
 
 const (
@@ -74,7 +74,6 @@ func (t *Transport) Live(w http.ResponseWriter, r *http.Request) {
 						return
 					}
 					if errors.Is(ctx.Err(), context.Canceled) {
-						resultLv.ContextError = fmt.Errorf("context cancelled tech-http component: %s", iLive.Name())
 						return
 					}
 					if ctx.Err() != nil {
@@ -110,17 +109,17 @@ func (t *Transport) Live(w http.ResponseWriter, r *http.Request) {
 func (t *Transport) Run() {
 	if t.Config.Pprof {
 		go func() {
-			fmt.Println(fmt.Sprintf("Start pprof server %s", t.Config.PprofPort))
 			pprofMux := http.NewServeMux()
-			if t.Config.PprofPort == "" {
+			if t.Config.PprofPort == 0 {
 				t.Config.PprofPort = defaultPprofPort
 			}
+			fmt.Println(fmt.Sprintf("Start pprof server port: %d", t.Config.PprofPort))
 			pprofMux.HandleFunc("/debug/pprof/", pprof.Index)
 			pprofMux.HandleFunc("/debug/pprof/cmdline", pprof.Cmdline)
 			pprofMux.HandleFunc("/debug/pprof/profile", pprof.Profile)
 			pprofMux.HandleFunc("/debug/pprof/symbol", pprof.Symbol)
 			pprofMux.HandleFunc("/debug/pprof/trace", pprof.Trace)
-			if err := http.ListenAndServe(t.Config.PprofPort, pprofMux); err != nil && !errors.Is(err, http.ErrServerClosed) {
+			if err := http.ListenAndServe(fmt.Sprintf(":%d", t.Config.PprofPort), pprofMux); err != nil && !errors.Is(err, http.ErrServerClosed) {
 				fmt.Println(fmt.Sprintf("close http server %v", err))
 			}
 		}()
@@ -145,12 +144,13 @@ func (t *Transport) Run() {
 		mux.Handle(metricsPath, promhttp.Handler())
 		mux.HandleFunc(readinessPath, t.Ready)
 		mux.HandleFunc(livenessPath, t.Live)
-		fmt.Println(fmt.Sprintf("Start http server %s", t.Config.Port))
-		if t.Config.Port == "" {
+		fmt.Println(fmt.Sprintf("Start http server port: %d", t.Config.Port))
+		if t.Config.Port == 0 {
 			t.Config.Port = defaultPort
 		}
+		port := fmt.Sprintf(":%d", t.Config.Port)
 		server := http.Server{
-			Addr:         t.Config.Port,
+			Addr:         port,
 			Handler:      mux,
 			ReadTimeout:  t.Config.Timeout,
 			WriteTimeout: t.Config.Timeout,

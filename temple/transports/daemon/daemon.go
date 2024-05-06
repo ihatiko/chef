@@ -6,6 +6,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promauto"
 	"github.com/uptrace/opentelemetry-go-extra/otelzap"
 	"go.uber.org/zap"
 )
@@ -16,6 +18,14 @@ const (
 	defaultWorker   = 1
 	componentName   = "daemon"
 )
+
+var successDaemon = promauto.NewCounterVec(prometheus.CounterOpts{
+	Name: "daemon_processing_success",
+}, []string{})
+
+var failedDaemon = promauto.NewCounterVec(prometheus.CounterOpts{
+	Name: "daemon_processing_failed",
+}, []string{})
 
 type Request struct {
 	ctx context.Context
@@ -66,21 +76,24 @@ func (t transport) Routing(fn h) transport {
 }
 
 func (t transport) Run() {
+	otelzap.L().Info("starting daemon")
 	if t.h == nil {
 		otelzap.L().Fatal("daemon transport handler is nil")
 	}
 	for range t.Ticker.C {
 		wg := &sync.WaitGroup{}
 		for i := range t.Config.Workers {
-			wg.Add(1)
-			defer wg.Done()
-			otelzap.L().Info("Start daemon worker",
-				zap.Int("number", i+1),
-			)
-			t.handler(i + 1)
-			otelzap.L().Info("End daemon worker",
-				zap.Int("number", i+1),
-			)
+			go func(id int) {
+				wg.Add(1)
+				defer wg.Done()
+				otelzap.L().Info("Start daemon worker",
+					zap.Int("worker", i+1),
+				)
+				t.handler(i + 1)
+				otelzap.L().Info("End daemon worker",
+					zap.Int("worker", i+1),
+				)
+			}(i)
 		}
 		wg.Wait()
 	}
@@ -104,7 +117,6 @@ func (t transport) handler(id int) {
 				return
 			}
 			if errors.Is(ctx.Err(), context.Canceled) {
-				otelzap.S().Warn("context canceled daemon")
 				return
 			}
 			if ctx.Err() != nil {
@@ -115,7 +127,10 @@ func (t transport) handler(id int) {
 	err := t.h(Request{ctx: ctx, id: id})
 	if err != nil {
 		otelzap.S().Errorf("Error daemon worker: %v", err)
+		failedDaemon.WithLabelValues().Inc()
+		return
 	}
+	successDaemon.WithLabelValues().Inc()
 }
 
 func (t transport) Live(ctx context.Context) error {

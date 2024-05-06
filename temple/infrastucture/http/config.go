@@ -3,8 +3,8 @@ package http
 import "time"
 
 type Config struct {
-	Port          string
-	PprofPort     string
+	Port          int
+	PprofPort     int
 	Timeout       time.Duration
 	Pprof         bool
 	LivenessPath  string
