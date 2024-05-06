@@ -4,7 +4,7 @@ import (
 	"example/internal/server/deployments/daemon"
 	mExample "example/internal/server/deployments/multiple-example"
 
-	"github.com/ihatiko/olymp/hephaestus/commands"
+	"github.com/ihatiko/olymp/core/commands"
 )
 
 func Startup() {

@@ -1,4 +1,4 @@
-module github.com/ihatiko/olymp/hephaestus
+module github.com/ihatiko/olymp/core
 
 go 1.22.0
 

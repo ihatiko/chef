@@ -3,8 +3,8 @@ package postgresql
 import "time"
 
 type Config struct {
-	Host               string
 	Port               int
+	Host               string
 	User               string
 	Password           string
 	Database           string
@@ -13,7 +13,7 @@ type Config struct {
 	AutoMigrate        bool
 	QueryExecMode      string
 	MaxOpenConnections int
-	ConnMaxLifetime    time.Duration
 	MaxIdleConnections int
+	ConnMaxLifetime    time.Duration
 	ConnMaxIdleTime    time.Duration
 }

@@ -8,5 +8,5 @@ import (
 type DaemonDeploymentExample struct {
 	Daemon          daemon.Config     `toml:"daemon"`
 	ReadPostgreSQL  postgresql.Config `toml:"read-postgresql"`
-	WritePostgreSQL postgresql.Config `toml:"read-postgresql"`
+	WritePostgreSQL postgresql.Config `toml:"write-postgresql"`
 }

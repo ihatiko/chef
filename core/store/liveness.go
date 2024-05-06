@@ -3,7 +3,7 @@ package store
 import (
 	"sync"
 
-	"github.com/ihatiko/olymp/hephaestus/iface"
+	"github.com/ihatiko/olymp/core/iface"
 )
 
 var LivenessStore = store{

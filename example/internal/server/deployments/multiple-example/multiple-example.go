@@ -5,7 +5,7 @@ import (
 	"example/internal/features/characters"
 	"example/internal/features/planets"
 
-	"github.com/ihatiko/olymp/hephaestus/app"
+	"github.com/ihatiko/olymp/core/app"
 )
 
 type MultipleExample struct {

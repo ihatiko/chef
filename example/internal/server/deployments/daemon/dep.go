@@ -1,3 +1,5 @@
+//go:generate deployment-dependency
+
 package daemon
 
 import (
@@ -5,7 +7,7 @@ import (
 	planetsService "example/internal/features/planets/service"
 	planetsTransport "example/internal/features/planets/transport"
 
-	"github.com/ihatiko/olymp/hephaestus/iface"
+	"github.com/ihatiko/olymp/core/iface"
 )
 
 func (d DaemonDeploymentExample) Dep() iface.IDeployment {

@@ -1,4 +1,4 @@
-package monads
+package iface
 
 type IError interface {
 	HasError() bool

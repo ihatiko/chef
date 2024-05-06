@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ihatiko/olymp/hephaestus/iface"
-	store "github.com/ihatiko/olymp/hephaestus/store"
+	"github.com/ihatiko/olymp/core/iface"
+	store "github.com/ihatiko/olymp/core/store"
 	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"golang.org/x/net/context"

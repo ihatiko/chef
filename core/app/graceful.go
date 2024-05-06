@@ -6,7 +6,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/ihatiko/olymp/hephaestus/iface"
+	"github.com/ihatiko/olymp/core/iface"
 	"github.com/uptrace/opentelemetry-go-extra/otelzap"
 	"go.uber.org/zap"
 )

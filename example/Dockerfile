@@ -14,7 +14,7 @@ COPY go.mod .
 
 RUN go mod download
 
-COPY . .
+COPY ../zeus .
 
 RUN go build -o main .
 

@@ -1,14 +1,14 @@
 go 1.22.0
 
 use (
-	./temple/infrastucture/tracer
-	./temple/infrastucture/logger
-	./temple/infrastucture/tech
-	./temple/infrastucture/http
-	./hephaestus
-	./temple/transports/daemon
+	./components/infrastucture/tracer
+	./components/infrastucture/logger
+	./components/infrastucture/tech
+	./components/infrastucture/http
+	./core
+	./components/transports/daemon
 	./example
-	./temple/transports/cron
-	./temple/transports/grpc
-	./temple/components/postgresql
+	./components/transports/cron
+	./components/transports/grpc
+	./components/clients/postgresql
 )

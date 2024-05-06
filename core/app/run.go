@@ -5,8 +5,8 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/ihatiko/olymp/hephaestus/iface"
-	"github.com/ihatiko/olymp/hephaestus/store"
+	"github.com/ihatiko/olymp/core/iface"
+	"github.com/ihatiko/olymp/core/store"
 	"github.com/uptrace/opentelemetry-go-extra/otelzap"
 	"go.uber.org/zap"
 )
