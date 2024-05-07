@@ -13,4 +13,6 @@ use (
 	./components/clients/postgresql
 	./components/clients/redis
 	./components/infrastucture/config
+	./components/transports/kafka
+	./components/clients/kafka-producer
 )
