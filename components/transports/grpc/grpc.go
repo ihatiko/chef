@@ -168,6 +168,7 @@ func (t Transport) Run() {
 	err = t.App.Serve(listener)
 	if err != nil {
 		if errors.Is(err, grpc.ErrServerStopped) {
+			otelzap.S().Warnf("%v", err)
 			return
 		}
 		if errors.Is(err, context.Canceled) {

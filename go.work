@@ -12,7 +12,9 @@ use (
 	./components/transports/grpc
 	./components/clients/postgresql
 	./components/clients/redis
-	./components/infrastucture/config
-	./components/transports/kafka
+	./components/utils/config
+	./components/transports/kafka-consumer
 	./components/clients/kafka-producer
+	./components/clients/kafka
+	./components/utils/toml
 )

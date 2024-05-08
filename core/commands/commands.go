@@ -7,20 +7,16 @@ import (
 	"runtime/debug"
 	"strings"
 
-	tC "github.com/ihatiko/olymp/components/clients/config"
 	"github.com/ihatiko/olymp/components/clients/tech"
 	"github.com/ihatiko/olymp/core/iface"
 	_ "github.com/ihatiko/olymp/core/store"
 	"github.com/ihatiko/olymp/core/utils"
+	tC "github.com/ihatiko/olymp/infrastucture/components/utils/config"
 	"github.com/spf13/cobra"
 )
 
-// deployment описание внутренний функции деплоймента
 type deployment = func() (*cobra.Command, error)
 
-// WithDeployment Минимальная единица приложения
-// Описание как запускать ваш код в k8s - работает исключительно на строгих типах
-// Deployment any -> Структура которая распологается по пути internal/server/deployments
 func WithDeployment[Deployment iface.IDeployment]() deployment {
 	return func() (*cobra.Command, error) {
 

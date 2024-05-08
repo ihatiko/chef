@@ -4,6 +4,7 @@ import (
 	protoPeoples "example/protoc/peoples"
 	protoPlanets "example/protoc/planets"
 
+	kProducer "github.com/ihatiko/olymp/components/clients/kafka-producer"
 	"github.com/ihatiko/olymp/components/clients/postgresql"
 	"github.com/ihatiko/olymp/components/clients/redis"
 	"github.com/ihatiko/olymp/components/transports/cron"
@@ -18,4 +19,5 @@ type MultipleExample struct {
 	ReadPostgreSQL        postgresql.Config          `toml:"read-postgresql"`
 	WritePostgreSQL       postgresql.Config          `toml:"write-postgresql"`
 	Redis                 redis.Config               `toml:"redis"`
+	PlanetsProducer       kProducer.Config           `toml:"kafka,planets-producer"`
 }

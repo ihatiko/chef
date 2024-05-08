@@ -40,3 +40,9 @@ addr = "localhost:6379"
 db = 0
 masterName = "mymaster"
 sentinelAddrs = [":26379", ":26379", ":26379"]
+
+[kafka]
+brokers=["localhost:9092"]
+
+[planets-producer]
+topic="example.planets.create"

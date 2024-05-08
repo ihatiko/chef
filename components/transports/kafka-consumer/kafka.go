@@ -1,4 +1,4 @@
-package kafka
+package kafka_consumer
 
 import (
 	"context"
@@ -9,7 +9,13 @@ import (
 	"github.com/segmentio/kafka-go"
 )
 
+const (
+	component = "kafka-consumer"
+)
+
 type Client struct {
+	cfg Config
+	err error
 }
 
 func (c Client) Name() string {

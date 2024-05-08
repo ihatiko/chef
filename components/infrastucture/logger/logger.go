@@ -3,6 +3,7 @@ package logger
 import (
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/uptrace/opentelemetry-go-extra/otelzap"
 	"go.uber.org/zap"
@@ -76,7 +77,7 @@ func (c *Config) New(opts ...Option) {
 	encoderCfg.EncodeLevel = zapcore.CapitalLevelEncoder
 	encoderCfg.EncodeCaller = zapcore.ShortCallerEncoder
 	encoderCfg.EncodeDuration = zapcore.StringDurationEncoder
-
+	encoderCfg.EncodeTime = zapcore.TimeEncoderOfLayout(time.RFC3339)
 	if c.Encoding == "console" {
 		encoderCfg.EncodeLevel = zapcore.CapitalColorLevelEncoder
 		encoderCfg.EncodeCaller = zapcore.FullCallerEncoder

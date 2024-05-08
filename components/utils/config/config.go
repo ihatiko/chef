@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"os"
 
-	toml "github.com/pelletier/go-toml"
+	toml "github.com/pelletier/toml"
 )
 
 const (

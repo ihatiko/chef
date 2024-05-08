@@ -38,7 +38,9 @@ func Modules(components ...iface.IComponent) {
 				}
 			}
 		}
-		otelzap.S().Logf(level, "init package %s %v", pkg.Name(), pkg.Error())
+		if pkg.HasError() {
+			otelzap.S().Logf(level, "init package %s %v", pkg.Name(), pkg.Error())
+		}
 	}
 	for _, component := range app.Components {
 		store.LivenessStore.Load(component)
