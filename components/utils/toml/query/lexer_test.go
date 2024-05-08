@@ -1,8 +1,9 @@
 package query
 
 import (
-	"github.com/pelletier/toml"
 	"testing"
+
+	"github.com/ihatiko/olymp/infrastucture/components/utils/toml"
 )
 
 func testQLFlow(t *testing.T, input string, expectedFlow []token) {

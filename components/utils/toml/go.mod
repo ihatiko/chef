@@ -1,3 +1,3 @@
-module github.com/pelletier/toml
+module github.com/ihatiko/olymp/infrastucture/components/utils/toml
 
 go 1.12

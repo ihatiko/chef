@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/pelletier/toml"
+	"github.com/ihatiko/olymp/infrastucture/components/utils/toml"
 )
 
 type queryTestNode struct {

@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/pelletier/toml"
+	"github.com/ihatiko/olymp/infrastucture/components/utils/toml"
 )
 
 // dump path tree to a string

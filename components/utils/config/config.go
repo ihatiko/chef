@@ -5,7 +5,7 @@ import (
 	"net/url"
 	"os"
 
-	toml "github.com/pelletier/toml"
+	toml "github.com/ihatiko/olymp/infrastucture/components/utils/toml"
 )
 
 const (

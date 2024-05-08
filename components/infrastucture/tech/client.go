@@ -3,7 +3,7 @@ package tech
 import (
 	"fmt"
 
-	"github.com/pelletier/toml"
+	"github.com/ihatiko/olymp/infrastucture/components/utils/toml"
 )
 
 func Use(arg string) error {

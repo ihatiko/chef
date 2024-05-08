@@ -7,10 +7,11 @@ package query
 
 import (
 	"fmt"
-	"github.com/pelletier/toml"
 	"strconv"
 	"strings"
 	"unicode/utf8"
+
+	"github.com/ihatiko/olymp/infrastucture/components/utils/toml"
 )
 
 // Lexer state function
