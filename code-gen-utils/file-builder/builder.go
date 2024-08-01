@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"embed"
 	"errors"
-	"github.com/uptrace/opentelemetry-go-extra/otelzap"
 	"io/fs"
 	"log"
+	"log/slog"
 	"os"
 	"path/filepath"
 	"strings"
@@ -56,12 +56,14 @@ func (b *Builder) process(prefix, destination string, obj any) {
 func (b *Builder) CleanEmptyDir(destination string) {
 	dir, err := os.ReadDir(destination)
 	if err != nil {
-		otelzap.S().Fatal(err)
+		slog.Error(err.Error())
+		panic("failed to clean empty directory")
 	}
 	if len(dir) == 0 {
 		err = os.Remove(destination)
 		if err != nil {
-			otelzap.S().Fatal(err)
+			slog.Error(err.Error())
+			panic("failed to clean empty directory")
 		}
 	}
 }
@@ -87,11 +89,13 @@ func (b *Builder) buildFile(secondPath string, folder string, obj any) {
 	secondPath = b.OSSlash(secondPath)
 	rF, err := b.structure.ReadFile(secondPath)
 	if err != nil {
-		otelzap.S().Fatal(err)
+		slog.Error(err.Error())
+		panic("failed to read file")
 	}
 	t, err := template.New("").Parse(string(rF))
 	if err != nil {
-		otelzap.S().Fatal(err)
+		slog.Error(err.Error())
+		panic("failed to parse template")
 	}
 	parsedPath, _ := strings.CutSuffix(secondPath, ".tmpl")
 	parsedPath = b.cleanPath(parsedPath)
@@ -102,22 +106,26 @@ func (b *Builder) buildFile(secondPath string, folder string, obj any) {
 	)
 	f, err := os.Create(filePath)
 	if err != nil {
-		otelzap.S().Fatal(err)
+		slog.Error(err.Error())
+		panic("failed to create file")
 	}
 	err = t.ExecuteTemplate(f, "", obj)
 	if err != nil {
-		otelzap.S().Fatal(err)
+		slog.Error(err.Error())
+		panic("failed to execute template")
 	}
 }
 func (b *Builder) RewritePath(folder string, obj any) string {
 	t, err := template.New("").Parse(folder)
 	if err != nil {
-		otelzap.S().Fatal(err)
+		slog.Error(err.Error())
+		panic("failed to parse template")
 	}
 	buffer := bytes.NewBufferString("")
 	err = t.ExecuteTemplate(buffer, "", obj)
 	if err != nil {
-		otelzap.S().Fatal(err)
+		slog.Error(err.Error())
+		panic("failed to execute template")
 	}
 	return strings.ReplaceAll(buffer.String(), " ", "")
 }
@@ -131,7 +139,8 @@ func Mkdir(path string) {
 	if errors.Is(err, fs.ErrNotExist) {
 		err := os.Mkdir(path, os.ModePerm)
 		if err != nil {
-			otelzap.S().Fatal(err)
+			slog.Error(err.Error())
+			panic("failed to create directory")
 		}
 	}
 }

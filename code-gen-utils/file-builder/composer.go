@@ -3,7 +3,7 @@ package utils
 import (
 	"bytes"
 	"errors"
-	"github.com/uptrace/opentelemetry-go-extra/otelzap"
+	"log/slog"
 	"os"
 	"os/exec"
 	"strings"
@@ -39,9 +39,9 @@ func (c *Composer) CommandsComposer(commands ...Command) {
 	for _, command := range commands {
 		if command.state {
 			err := c.ExecCommand(command.cmd, consoleEnv)
-			otelzap.L().Info(command.cmd)
+			slog.Info(command.cmd)
 			if err != nil && !command.skipOnError {
-				otelzap.S().Error(err)
+				slog.Error(err.Error())
 				break
 			}
 		}
@@ -55,9 +55,9 @@ func (c *Composer) ConditionalComposer(commands ...Command) {
 	}
 	for _, command := range commands {
 		err := c.ExecCommand(command.cmd, consoleEnv)
-		otelzap.L().Info(command.cmd)
+		slog.Info(command.cmd)
 		if err != nil && !command.skipOnError {
-			otelzap.S().Error(err)
+			slog.Error(err.Error())
 			break
 		}
 	}
