@@ -1,3 +1,32 @@
+[deploy.example]
+replicas = 3
+# default type = "ReplicaSet"
+quotas = { cpu = "128mi", memory = "100m"}
+# if quotas empty limits = {}
+# if quotas empty requests = {}
+
+[deploy.kafka]
+replicas = 3
+type = "ReplicaSet"
+quotas = { cpu = "128mi", memory = "100m"}
+# if quotas empty limits = {}
+# if quotas empty requests = {}
+
+[deploy.cron]
+active = false # generate warning ( default true)
+replicas = 3
+type = "CronJob"
+schedule = "* * * * *"
+quotas = { cpu = "128mi", memory = "100m"}
+# if quotas empty limits = {}
+# if quotas empty requests = {}
+
+# [deploy.canary.metrics]
+
+#[observability.alerts]
+# aboba = "sadasdasdasdasd"
+
+
 [tech.service]
 # имя сервиса
 name = "example"
@@ -19,6 +48,7 @@ timeout = "30s"
 workers = 1
 
 [grpc]
+# порт grpc
 port = ":10001"
 
 [read-postgresql]
