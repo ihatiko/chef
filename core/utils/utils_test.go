@@ -14,7 +14,7 @@ type Custom struct {
 type Custom1 struct {
 }
 
-func Test_parseTypeName_case1(t *testing.T) {
+func Test_parseTypeName_case(t *testing.T) {
 	assert.Equal(t, ParseTypeName[CustomType](), "custom-type")
 }
 func Test_parseTypeName_case2(t *testing.T) {

@@ -17,4 +17,5 @@ use (
 	./components/clients/kafka-producer
 	./components/clients/kafka
 	./components/utils/toml
+	./components/utils/environ
 )
