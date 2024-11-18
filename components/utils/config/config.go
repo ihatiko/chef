@@ -1,9 +1,9 @@
 package config
 
 import (
-	"errors"
-	"net/url"
+	"github.com/ihatiko/components/utils/environ"
 	"os"
+	"path"
 
 	"github.com/ihatiko/olymp/infrastucture/components/utils/toml"
 )
@@ -30,20 +30,21 @@ func ToConfig[T any](t T, opts ...Options) error {
 		opt(s)
 	}
 	if s.Path == "" {
-		path, err := os.Getwd()
+		p, err := os.Getwd()
 		if err != nil {
 			return err
 		}
-		newPath, err := url.JoinPath(path, configPath)
-		if err != nil {
-			return errors.Join(err, errors.New("config parse function"))
-		}
-		s.Path = newPath
+		// TODO support various OS
+		s.Path = path.Join(p, configPath)
 	}
 	f, err := os.ReadFile(s.Path)
 	if err != nil {
 		return err
 	}
 	err = toml.Unmarshal(f, t)
+	if err != nil {
+		return err
+	}
+	environ.Parse(t)
 	return err
 }

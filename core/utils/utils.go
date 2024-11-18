@@ -6,15 +6,15 @@ import (
 	"strings"
 )
 
-// Example: Custom -> custom, CustomType -> custom-type
+// ParseTypeName Example: Custom -> custom, CustomType -> custom-type
 func ParseTypeName[Z any]() string {
 	tp := getType[Z]()
 	re := regexp.MustCompile(`[A-Z][^A-Z]*`)
-	splittedType := re.FindAllString(tp, -1)
-	for index, value := range splittedType {
-		splittedType[index] = strings.ToLower(value)
+	splitType := re.FindAllString(tp, -1)
+	for index, value := range splitType {
+		splitType[index] = strings.ToLower(value)
 	}
-	n := strings.ToLower(strings.Join(splittedType, "-"))
+	n := strings.ToLower(strings.Join(splitType, "-"))
 	return n
 }
 
