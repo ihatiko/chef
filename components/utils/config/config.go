@@ -5,27 +5,27 @@ import (
 	"net/url"
 	"os"
 
-	toml "github.com/ihatiko/olymp/infrastucture/components/utils/toml"
+	"github.com/ihatiko/olymp/infrastucture/components/utils/toml"
 )
 
 const (
 	configPath = "config/config.toml"
 )
 
-type ConfigSettings struct {
+type Settings struct {
 	Path string
 }
 
-type Options func(setting *ConfigSettings)
+type Options func(setting *Settings)
 
 func WithPath(path string) Options {
-	return func(setting *ConfigSettings) {
+	return func(setting *Settings) {
 		setting.Path = path
 	}
 }
 
 func ToConfig[T any](t T, opts ...Options) error {
-	s := new(ConfigSettings)
+	s := new(Settings)
 	for _, opt := range opts {
 		opt(s)
 	}

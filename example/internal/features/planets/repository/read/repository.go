@@ -6,10 +6,10 @@ import (
 	"github.com/ihatiko/olymp/components/clients/postgresql"
 )
 
-type repositoty struct {
+type repository struct {
 	client postgresql.Client
 }
 
 func New(db postgresql.Client) planets.IReadRepository {
-	return &repositoty{db}
+	return &repository{db}
 }

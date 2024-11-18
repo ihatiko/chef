@@ -15,9 +15,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-type deployment = func() (*cobra.Command, error)
-
-func WithDeployment[Deployment iface.IDeployment]() deployment {
+func WithDeployment[Deployment iface.IDeployment]() func() (*cobra.Command, error) {
 	return func() (*cobra.Command, error) {
 
 		return &cobra.Command{
@@ -38,7 +36,11 @@ func WithDeployment[Deployment iface.IDeployment]() deployment {
 					return
 				}
 				commandName := utils.ParseTypeName[Deployment]()
-				os.Setenv("TECH_SERVICE_COMMAND", commandName)
+				err = os.Setenv("TECH_SERVICE_COMMAND", commandName)
+				if err != nil {
+					fmt.Println("error set TECH_SERVICE_COMMAND to env")
+					return
+				}
 				app := (*d).Dep()
 				rApp := reflect.ValueOf(app)
 				var collectErrors []string
@@ -62,7 +64,7 @@ func WithDeployment[Deployment iface.IDeployment]() deployment {
 	}
 }
 
-func WithApp(operators ...deployment) {
+func WithApp(operators ...func() (*cobra.Command, error)) {
 	cmd := new(cobra.Command)
 	var (
 		err error

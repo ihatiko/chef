@@ -1,8 +1,8 @@
 package main
 
 import (
-	"example/internal/server/deployments/daemon"
-	mExample "example/internal/server/deployments/multiple-example"
+	"example/internal/deployments/daemon"
+	mExample "example/internal/deployments/multiple-example"
 	"github.com/ihatiko/olymp/core/commands"
 )
 
