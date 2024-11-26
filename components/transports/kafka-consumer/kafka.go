@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"strings"
 	"sync"
 
 	"github.com/segmentio/kafka-go"
@@ -14,19 +15,20 @@ const (
 )
 
 type Client struct {
-	cfg Config
-	err error
+	cfg    Config
+	topics []string
+	err    error
 }
 
 func (c Client) Name() string {
-	return fmt.Sprintf("name: %s topic:%s hosts: %v", component, c.cfg.Topic, c.cfg.Brokers)
+	return fmt.Sprintf("name: %s topic:%s hosts: %v", component, strings.Join(c.topics, ","), c.cfg.Brokers)
 }
 
 func (c Client) Live(ctx context.Context) error {
 	wg := sync.WaitGroup{}
 	wg.Add(len(c.cfg.Brokers))
 	mt := sync.Mutex{}
-	liveResult := []error{}
+	var liveResult []error
 	for _, broker := range c.cfg.Brokers {
 		go func(br string) {
 			defer wg.Done()

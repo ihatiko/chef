@@ -69,4 +69,4 @@ sentinelAddrs = [":26379", ":26379", ":26379"]
 brokers=["localhost:9092"]
 
 [planets-producer]
-topic="example.planets.create"
+topics=["example.planets.create"]
