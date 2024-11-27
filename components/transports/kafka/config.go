@@ -1,4 +1,4 @@
-package kafka_consumer
+package kafka
 
 import (
 	"time"

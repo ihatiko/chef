@@ -78,7 +78,7 @@ func (t transport) Routing(fn h) transport {
 }
 
 func (t transport) Run() {
-	otelzap.L().Info("starting daemon")
+	slog.Info("starting daemon")
 	if t.h == nil {
 		otelzap.L().Fatal("daemon transport handler is nil")
 	}
@@ -88,11 +88,11 @@ func (t transport) Run() {
 			go func(id int) {
 				wg.Add(1)
 				defer wg.Done()
-				otelzap.L().Info("Start daemon worker",
+				slog.Info("Start daemon worker",
 					zap.Int("worker", i+1),
 				)
 				t.handler(i + 1)
-				otelzap.L().Info("End daemon worker",
+				slog.Info("End daemon worker",
 					zap.Int("worker", i+1),
 				)
 			}(i)

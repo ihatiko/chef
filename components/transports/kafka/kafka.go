@@ -1,4 +1,4 @@
-package kafka_consumer
+package kafka
 
 import (
 	"context"
@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	component = "kafka-consumer"
+	component = "kafka"
 )
 
 type Client struct {

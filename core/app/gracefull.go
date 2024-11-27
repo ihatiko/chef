@@ -1,6 +1,7 @@
 package app
 
 import (
+	"log/slog"
 	"os"
 	"os/signal"
 	"syscall"
@@ -13,56 +14,56 @@ import (
 
 func (a *App) Graceful(components []iface.IComponent) {
 	<-a.Wait()
-	otelzap.L().Info("starting graceful before components...")
+	slog.Info("starting graceful before components...")
 	a.BeforeShutdown(components)
-	otelzap.L().Info("starting graceful before components... done")
-	otelzap.L().Info("starting shutdown ...")
+	slog.Info("starting graceful before components... done")
+	slog.Info("starting shutdown ...")
 	a.Shutdown(components)
-	otelzap.L().Info("starting shutdown ... done")
-	otelzap.L().Info("starting delay [terminating old requests] ...")
+	slog.Info("starting shutdown ... done")
+	slog.Info("starting delay [terminating old requests] ...")
 	Delay(
 		components...,
 	)
-	otelzap.L().Info("starting delay [terminating old requests] ... done")
-	otelzap.L().Info("starting gracefull after components...")
+	slog.Info("starting delay [terminating old requests] ... done")
+	slog.Info("starting gracefull after components...")
 	a.AfterShutdown(components)
-	otelzap.L().Info("starting gracefull after components... done")
-	otelzap.L().Info("Server exit properly")
+	slog.Info("starting gracefull after components... done")
+	slog.Info("Server exit properly")
 }
 
 func (a *App) AfterShutdown(components []iface.IComponent) {
 	for _, t := range components {
 		if component, ok := t.(iface.IAfterLifecycleComponent); ok {
-			otelzap.L().Info("starting after shutdown...", zap.String("component", component.Name()))
+			slog.Info("starting after shutdown...", zap.String("component", component.Name()))
 			err := component.AfterShutdown()
 			if err != nil {
 				otelzap.S().Error(err)
 			}
-			otelzap.L().Info("starting after shutdown...done", zap.String("component", component.Name()))
+			slog.Info("starting after shutdown...done", zap.String("component", component.Name()))
 		}
 	}
 }
 
 func (a *App) Shutdown(components []iface.IComponent) {
 	for _, component := range components {
-		otelzap.L().Info("starting shutdown...", zap.String("component", component.Name()))
+		slog.Info("starting shutdown...", zap.String("component", component.Name()))
 		err := component.Shutdown()
 		if err != nil {
 			otelzap.S().Error(err)
 		}
-		otelzap.L().Info("starting shutdown...done", zap.String("component", component.Name()))
+		slog.Info("starting shutdown...done", zap.String("component", component.Name()))
 	}
 }
 
 func (a *App) BeforeShutdown(components []iface.IComponent) {
 	for _, t := range components {
 		if component, ok := t.(iface.IBeforeLifecycleComponent); ok {
-			otelzap.L().Info("starting before shutdown...", zap.String("component", component.Name()))
+			slog.Info("starting before shutdown...", zap.String("component", component.Name()))
 			err := component.BeforeShutdown()
 			if err != nil {
 				otelzap.S().Error(err)
 			}
-			otelzap.L().Info("starting before shutdown...done", zap.String("component", component.Name()))
+			slog.Info("starting before shutdown...done", zap.String("component", component.Name()))
 		}
 	}
 }

@@ -13,7 +13,7 @@ use (
 	./components/clients/postgresql
 	./components/clients/redis
 	./components/utils/config
-	./components/transports/kafka-consumer
+	./components/transports/kafka
 	./components/clients/kafka-producer
 	./components/clients/kafka
 	./components/utils/toml

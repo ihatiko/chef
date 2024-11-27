@@ -72,11 +72,11 @@ func (t transport) Run() {
 	for i := range t.Config.Workers {
 		wg.Add(1)
 		defer wg.Done()
-		otelzap.L().Info("Start cron worker",
+		slog.Info("Start cron worker",
 			zap.Int("worker", i+1),
 		)
 		t.handler(i + 1)
-		otelzap.L().Info("End cron worker",
+		slog.Info("End cron worker",
 			zap.Int("worker", i+1),
 		)
 	}
