@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"sync"
 	"time"
 
@@ -73,11 +74,11 @@ func (t transport) Run() {
 		wg.Add(1)
 		defer wg.Done()
 		slog.Info("Start cron worker",
-			zap.Int("worker", i+1),
+			slog.Int("worker", i+1),
 		)
 		t.handler(i + 1)
 		slog.Info("End cron worker",
-			zap.Int("worker", i+1),
+			slog.Int("worker", i+1),
 		)
 	}
 	wg.Wait()
@@ -87,8 +88,7 @@ func (t transport) handler(id int) {
 	ctx, cancel := context.WithTimeout(context.TODO(), t.Config.Timeout)
 	defer func() {
 		if r := recover(); r != nil {
-			otelzap.
-				Ctx(ctx).Error("error handling message", zap.Any("panic", r))
+			slog.Error("error handling message", zap.Any("panic", r))
 		}
 	}()
 
@@ -97,7 +97,7 @@ func (t transport) handler(id int) {
 		select {
 		case <-ctx.Done():
 			if errors.Is(ctx.Err(), context.DeadlineExceeded) {
-				otelzap.S().Warn("context deadline exceeded daemon")
+				slog.Warn("context deadline exceeded daemon")
 				return
 			}
 			if errors.Is(ctx.Err(), context.Canceled) {
@@ -110,7 +110,7 @@ func (t transport) handler(id int) {
 	}()
 	err := t.h(Request{ctx: ctx, id: id})
 	if err != nil {
-		otelzap.S().Errorf("Error daemon worker: %v", err)
+		slog.Error("Error daemon worker", slog.String("desc", err.Error()))
 	}
 }
 

@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"sync"
 	"time"
 
@@ -89,11 +90,11 @@ func (t transport) Run() {
 				wg.Add(1)
 				defer wg.Done()
 				slog.Info("Start daemon worker",
-					zap.Int("worker", i+1),
+					slog.Int("worker", i+1),
 				)
 				t.handler(i + 1)
 				slog.Info("End daemon worker",
-					zap.Int("worker", i+1),
+					slog.Int("worker", i+1),
 				)
 			}(i)
 		}
