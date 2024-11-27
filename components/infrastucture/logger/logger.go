@@ -17,37 +17,6 @@ type Config struct {
 	Level    Level
 }
 
-func (c *Config) GetLoggerLevel() zapcore.Level {
-	level, exist := loggerLevelMap[c.Level]
-	if !exist {
-		return zapcore.DebugLevel
-	}
-
-	return level
-}
-
-type Level string
-
-const (
-	Debug  Level = "debug"
-	Info   Level = "info"
-	Warn   Level = "warn"
-	Error  Level = "error"
-	DPanic Level = "dpanic"
-	Panic  Level = "panic"
-	Fatal  Level = "fatal"
-)
-
-var loggerLevelMap = map[Level]zapcore.Level{
-	Debug:  zapcore.DebugLevel,
-	Info:   zapcore.InfoLevel,
-	Warn:   zapcore.WarnLevel,
-	Error:  zapcore.ErrorLevel,
-	DPanic: zapcore.DPanicLevel,
-	Panic:  zapcore.PanicLevel,
-	Fatal:  zapcore.FatalLevel,
-}
-
 func (c *Config) New(opts ...Option) {
 	for _, opt := range opts {
 		opt(c)

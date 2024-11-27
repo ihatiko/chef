@@ -2,6 +2,8 @@ package commands
 
 import (
 	"fmt"
+	"go.uber.org/zap"
+	"log/slog"
 	"os"
 	"reflect"
 	"runtime/debug"
@@ -83,6 +85,7 @@ func WithApp(operators ...func() (*cobra.Command, error)) {
 
 func Compile(rootCommand *cobra.Command, err error) {
 	if err != nil {
+		slog.Error("error compile command", zap.String("desc", err.Error()))
 		fmt.Println(err)
 		os.Exit(1)
 	}
