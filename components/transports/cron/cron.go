@@ -10,7 +10,6 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/uptrace/opentelemetry-go-extra/otelzap"
-	"go.uber.org/zap"
 )
 
 const (
@@ -70,16 +69,18 @@ func (t transport) Run() {
 		otelzap.L().Fatal("cron transport handler is nil")
 	}
 	wg := &sync.WaitGroup{}
+	wg.Add(t.Config.Workers)
 	for i := range t.Config.Workers {
-		wg.Add(1)
-		defer wg.Done()
-		slog.Info("Start cron worker",
-			slog.Int("worker", i+1),
-		)
-		t.handler(i + 1)
-		slog.Info("End cron worker",
-			slog.Int("worker", i+1),
-		)
+		go func(id int) {
+			defer wg.Done()
+			slog.Info("Start cron worker",
+				slog.Int("worker", i+1),
+			)
+			t.handler(id + 1)
+			slog.Info("End cron worker",
+				slog.Int("worker", i+1),
+			)
+		}(i)
 	}
 	wg.Wait()
 }
@@ -88,7 +89,7 @@ func (t transport) handler(id int) {
 	ctx, cancel := context.WithTimeout(context.TODO(), t.Config.Timeout)
 	defer func() {
 		if r := recover(); r != nil {
-			slog.Error("error handling message", zap.Any("panic", r))
+			slog.Error("error handling message", slog.Any("panic", r))
 		}
 	}()
 
@@ -110,7 +111,7 @@ func (t transport) handler(id int) {
 	}()
 	err := t.h(Request{ctx: ctx, id: id})
 	if err != nil {
-		slog.Error("Error daemon worker", slog.String("desc", err.Error()))
+		slog.Error("Error daemon worker", slog.String("err", err.Error()))
 	}
 }
 

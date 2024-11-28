@@ -2,13 +2,12 @@ package app
 
 import (
 	"context"
+	"log/slog"
 	"os"
 	"strconv"
 
 	"github.com/ihatiko/olymp/core/iface"
 	"github.com/ihatiko/olymp/core/store"
-	"github.com/uptrace/opentelemetry-go-extra/otelzap"
-	"go.uber.org/zap"
 )
 
 type Option func(*App)
@@ -29,29 +28,44 @@ func Modules(components ...iface.IComponent) {
 			app.Components = append(app.Components, component)
 		}
 	}
+	fatalState := true
 	for _, pkg := range store.PackageStore.Get() {
-		level := zap.FatalLevel
 		if env := os.Getenv("TECH_SERVICE_DEBUG"); env != "" {
 			if state, err := strconv.ParseBool(env); err == nil {
-				if state {
-					level = zap.ErrorLevel
-				}
+				fatalState = !state
 			}
 		}
 		if pkg.HasError() {
-			otelzap.S().Logf(level, "init package %s %v", pkg.Name(), pkg.Error())
+
+			if fatalState {
+				slog.Error("init package", slog.Any("error", pkg.Error()), slog.Any("package", pkg))
+				os.Exit(1)
+			} else {
+				slog.Debug("init package", slog.Any("error", pkg.Error()), slog.Any("package", pkg))
+			}
 		}
 	}
 	for _, component := range app.Components {
 		store.LivenessStore.Load(component)
 		if component == nil {
-			otelzap.L().Fatal("empty struct [func Deployment(components ...iface.IComponent)]")
+
+			if fatalState {
+				slog.Error("empty struct [func Deployment(components ...iface.IComponent)]")
+				os.Exit(1)
+			} else {
+				slog.Debug("empty struct [func Deployment(components ...iface.IComponent)]")
+			}
 			return
 		}
 		go func(component iface.IComponent) {
 			defer func() {
 				if r := recover(); r != nil {
-					otelzap.L().Error("recovered from panic", zap.Any("recover", r))
+					if fatalState {
+						slog.Error("recovered from panic", slog.Any("recover", r))
+						os.Exit(1)
+					} else {
+						slog.Debug("recovered from panic", slog.Any("recover", r))
+					}
 				}
 			}()
 			component.Run()

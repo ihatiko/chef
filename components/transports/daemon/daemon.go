@@ -85,9 +85,9 @@ func (t transport) Run() {
 	}
 	for range t.Ticker.C {
 		wg := &sync.WaitGroup{}
+		wg.Add(t.Config.Workers)
 		for i := range t.Config.Workers {
 			go func(id int) {
-				wg.Add(1)
 				defer wg.Done()
 				slog.Info("Start daemon worker",
 					slog.Int("worker", i+1),

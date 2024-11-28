@@ -3,6 +3,7 @@ package http
 import (
 	"encoding/json"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"net/http/pprof"
 	"sync"
@@ -28,18 +29,6 @@ const (
 const (
 	defaultTimeout = time.Second * 15
 )
-
-type LogEvent struct {
-	Level   string `json:"level"`
-	Message string `json:"message"`
-	Time    string `json:"time"`
-}
-
-func (t LogEvent) String() string {
-	t.Time = time.Now().UTC().Format(time.RFC3339)
-	j, _ := json.Marshal(t)
-	return string(j)
-}
 
 type Transport struct {
 	Config *Config
@@ -79,6 +68,7 @@ func (t *Transport) Live(w http.ResponseWriter, r *http.Request) {
 			ctx, cancel := context.WithTimeout(context.TODO(), t.Config.Timeout)
 			defer cancel()
 			go func() {
+				componentName := iLive.Name()
 				select {
 				case <-ctx.Done():
 					if errors.Is(ctx.Err(), context.DeadlineExceeded) {
@@ -89,7 +79,7 @@ func (t *Transport) Live(w http.ResponseWriter, r *http.Request) {
 						return
 					}
 					if ctx.Err() != nil {
-						fmt.Errorf("context errored tech-http component: %s", iLive.Name())
+						slog.Error("context errored tech-http component", slog.String("component", componentName))
 					}
 				}
 			}()
@@ -118,7 +108,6 @@ func (t *Transport) Live(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
-// TODO json logger
 func (t *Transport) Run() {
 	if t.Config.Pprof {
 		go func() {
@@ -126,14 +115,14 @@ func (t *Transport) Run() {
 			if t.Config.PprofPort == 0 {
 				t.Config.PprofPort = defaultPprofPort
 			}
-			fmt.Println(LogEvent{Level: "INFO", Message: fmt.Sprintf("Start tech-http-pprof server port: %d", t.Config.PprofPort)})
+			slog.Info("Start tech-http-pprof server port", slog.Int("port", t.Config.PprofPort))
 			pprofMux.HandleFunc("/debug/pprof/", pprof.Index)
 			pprofMux.HandleFunc("/debug/pprof/cmdline", pprof.Cmdline)
 			pprofMux.HandleFunc("/debug/pprof/profile", pprof.Profile)
 			pprofMux.HandleFunc("/debug/pprof/symbol", pprof.Symbol)
 			pprofMux.HandleFunc("/debug/pprof/trace", pprof.Trace)
 			if err := http.ListenAndServe(fmt.Sprintf(":%d", t.Config.PprofPort), pprofMux); err != nil && !errors.Is(err, http.ErrServerClosed) {
-				fmt.Println(fmt.Sprintf("close http server %v", err))
+				slog.Warn("close tech-http-pprof server", slog.Any("error", err))
 			}
 		}()
 	}
@@ -157,7 +146,7 @@ func (t *Transport) Run() {
 		mux.Handle(metricsPath, promhttp.Handler())
 		mux.HandleFunc(readinessPath, t.Ready)
 		mux.HandleFunc(livenessPath, t.Live)
-		fmt.Println(LogEvent{Level: "INFO", Message: fmt.Sprintf("Start tech-http server port: %d", t.Config.Port)})
+		slog.Info("Start tech-http server port", slog.Int("port", t.Config.PprofPort))
 		if t.Config.Port == 0 {
 			t.Config.Port = defaultPort
 		}
@@ -169,7 +158,7 @@ func (t *Transport) Run() {
 			WriteTimeout: t.Config.Timeout,
 		}
 		if err := server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
-			fmt.Println(LogEvent{Level: "WARN", Message: fmt.Sprintf("close http server %v", err)})
+			slog.Warn("close tech-http server", slog.Any("error", err))
 		}
 	}()
 }
