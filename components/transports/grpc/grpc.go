@@ -182,12 +182,12 @@ func (t Transport) Run() {
 	}
 }
 
-// Ожидание сколько нужно ждать перед выключением сервера
+// TimeToWait Ожидание сколько нужно ждать перед выключением сервера
 func (t Transport) TimeToWait() time.Duration {
 	return t.Cfg.TimeOut * time.Second
 }
 
-// Безопасное выключение сервера (gracefull)
+// Shutdown Безопасное выключение сервера (gracefull)
 func (t Transport) Shutdown() error {
 	mt.Lock()
 	if _, ok := shutdown[t.Cfg.Port]; ok {

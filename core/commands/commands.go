@@ -85,7 +85,7 @@ func WithApp(operators ...func() (*cobra.Command, error)) {
 
 func Compile(rootCommand *cobra.Command, err error) {
 	if err != nil {
-		slog.Error("error compile command", zap.String("desc", err.Error()))
+		slog.Error("error compile command", zap.Any("err", err))
 		fmt.Println(err)
 		os.Exit(1)
 	}

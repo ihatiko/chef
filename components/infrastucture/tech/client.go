@@ -12,7 +12,7 @@ func Use(arg string) error {
 	err := toml.Unmarshal(defaultConfig, c)
 	if err != nil {
 		e := fmt.Errorf("error unmarshalling tech-config: %s command %s", err, arg)
-		slog.Error("error unmarshalling tech-config", zap.String("desc", e.Error()), zap.String("command", arg))
+		slog.Error("error unmarshalling tech-config", slog.String("error", e.Error()), zap.String("command", arg))
 		return e
 	}
 	//TODO env rewrite
