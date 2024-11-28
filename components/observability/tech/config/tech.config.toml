@@ -7,7 +7,7 @@ debug = true
 [tech.http]
 port = 8080
 pprof-port = 8081
-pprof = true
+pprof = false
 liveness-path = "/liveness"
 readiness-path = "/readiness"
 metrics-path = "/metrics"
@@ -20,6 +20,6 @@ ratio = 0.1
 host = "http://localhost:4040"
 ratio = 5
 
-[tech.log]
+[tech.logger]
 encoding = "json"
 level = "info"

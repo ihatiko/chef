@@ -143,10 +143,16 @@ func (t *Transport) Run() {
 		if t.Config.Timeout == 0 {
 			t.Config.Timeout = defaultTimeout
 		}
+		if t.Config.Port == 0 {
+			t.Config.Port = defaultPort
+		}
+		if t.Config.PprofPort == 0 {
+			t.Config.PprofPort = defaultPprofPort
+		}
 		mux.Handle(metricsPath, promhttp.Handler())
 		mux.HandleFunc(readinessPath, t.Ready)
 		mux.HandleFunc(livenessPath, t.Live)
-		slog.Info("Start tech-http server port", slog.Int("port", t.Config.PprofPort))
+		slog.Info("Start tech-http server", slog.Int("port", t.Config.PprofPort))
 		if t.Config.Port == 0 {
 			t.Config.Port = defaultPort
 		}

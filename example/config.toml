@@ -10,7 +10,7 @@ active = false # generate warning ( default true)
 replicas = 3
 type = "CronJob"
 schedule = "* * * * *"
-quotas = { cpu = "100m", memory = "128mi"}
+quotas = { cpu = "100m", memory = "128mi" }
 # default quotas = { cpu = "100m", memory = "128mi"}
 # if quotas empty limits = {}
 # if quotas empty requests = {}
@@ -20,6 +20,8 @@ quotas = { cpu = "100m", memory = "128mi"}
 #[observability.alerts]
 # aboba = "sadasdasdasdasd"
 
+[tech.logger]
+encoding = "stdout"
 
 [tech.service]
 # имя сервиса
@@ -32,13 +34,13 @@ debug = true
 timeout = "30s"
 # как часто вызывается тикер
 interval = "5s"
-# количество паралельный воркеров через горутины
+# количество паралельных воркеров через горутины
 workers = 1
 
 [cron]
 # таймаут на выполнение кроны
 timeout = "30s"
-# количество паралельный воркеров через горутины
+# количество паралельных воркеров через горутины
 workers = 1
 
 [grpc]
@@ -46,18 +48,18 @@ workers = 1
 port = ":10001"
 
 [read-postgresql]
-host="localhost"
-port=5432
-database="example"
-user="postgres"
-password="postgres"
+host = "localhost"
+port = 5432
+database = "example"
+user = "postgres"
+password = "postgres"
 
 [write-postgresql]
-host="localhost"
-port=5432
-database="example"
-user="postgres"
-password="postgres"
+host = "localhost"
+port = 5432
+database = "example"
+user = "postgres"
+password = "postgres"
 
 [redis]
 addr = "localhost:6379"
@@ -66,7 +68,7 @@ masterName = "mymaster"
 sentinelAddrs = [":26379", ":26379", ":26379"]
 
 [kafka]
-brokers=["localhost:9092"]
+brokers = ["localhost:9092"]
 
-[planets-producer]
-topics=["example.planets.create"]
+[kafka-planets-producer]
+topics = ["example.planets.create"]

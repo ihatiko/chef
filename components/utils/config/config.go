@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	configPath = "config/config.toml"
+	configPath = "config.toml"
 )
 
 type Settings struct {

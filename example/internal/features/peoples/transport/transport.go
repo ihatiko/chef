@@ -3,7 +3,7 @@ package transport
 import (
 	"context"
 	"example/internal/features/peoples"
-	protoPeople "example/protoc/peoples"
+	protoPeople "example/pkg/protoc/peoples"
 )
 
 type transport struct {

@@ -9,7 +9,7 @@ import (
 	"runtime/debug"
 	"strings"
 
-	"github.com/ihatiko/olymp/components/clients/tech"
+	"github.com/ihatiko/olymp/components/observability/tech"
 	"github.com/ihatiko/olymp/core/iface"
 	_ "github.com/ihatiko/olymp/core/store"
 	"github.com/ihatiko/olymp/core/utils"
@@ -29,18 +29,18 @@ func WithDeployment[Deployment iface.IDeployment]() func() (*cobra.Command, erro
 					if r := recover(); r != nil {
 						stack := string(debug.Stack())
 						name := reflect.TypeOf(*d).String()
-						fmt.Println(fmt.Sprintf("Recovered in core (Run) [%s] \n error: %s", name, stack))
+						slog.Error(fmt.Sprintf("Recovered in core (Run) [%s] \n error: %s", name, stack))
 					}
 				}()
 				err := tC.ToConfig(d)
 				if err != nil {
-					fmt.Println("Error in config:", err)
+					slog.Error("Error in config", slog.Any("error", err))
 					return
 				}
 				commandName := utils.ParseTypeName[Deployment]()
 				err = os.Setenv("TECH_SERVICE_COMMAND", commandName)
 				if err != nil {
-					fmt.Println("error set TECH_SERVICE_COMMAND to env")
+					slog.Error("Error in setting environment variable TECH_SERVICE_COMMAND", slog.Any("error", err))
 					return
 				}
 				app := (*d).Dep()
@@ -103,7 +103,7 @@ func Compile(rootCommand *cobra.Command, err error) {
 
 	err = rootCommand.Execute()
 	if err != nil {
-		fmt.Println(err)
+		slog.Error("error execute command", slog.Any("error", err))
 		os.Exit(1)
 	}
 }

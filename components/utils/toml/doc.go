@@ -16,7 +16,7 @@
 //
 // # JSONPath-like queries
 //
-// The package github.com/ihatiko/olymp/infrastucture/components/utils/toml/query implements a system
+// The package github.com/ihatiko/olymp/observability/components/utils/toml/query implements a system
 // similar to JSONPath to quickly retrieve elements of a TOML document using a
 // single expression. See the package documentation for more information.
 package toml

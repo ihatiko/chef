@@ -2,7 +2,7 @@
 // https://github.com/BurntSushi/toml-test and generates go code for go-toml's unit tests
 // based on the test files.
 //
-// Usage: go run github.com/ihatiko/olymp/infrastucture/components/utils/toml/cmd/tomltestgen > toml_testgen_test.go
+// Usage: go run github.com/ihatiko/olymp/observability/components/utils/toml/cmd/tomltestgen > toml_testgen_test.go
 package main
 
 import (

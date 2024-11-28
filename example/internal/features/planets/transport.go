@@ -1,8 +1,7 @@
 package planets
 
 import (
-	protoPlanets "example/protoc/planets"
-
+	protoPlanets "example/pkg/protoc/planets"
 	"github.com/ihatiko/olymp/components/transports/cron"
 	"github.com/ihatiko/olymp/components/transports/daemon"
 )

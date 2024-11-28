@@ -3,7 +3,7 @@ package transport
 import (
 	"context"
 	"example/internal/features/planets"
-	protoPlanets "example/protoc/planets"
+	protoPlanets "example/pkg/protoc/planets"
 	"fmt"
 
 	"github.com/ihatiko/olymp/components/transports/cron"

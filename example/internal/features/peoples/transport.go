@@ -1,6 +1,8 @@
 package peoples
 
-import "example/protoc/peoples"
+import (
+	"example/pkg/protoc/peoples"
+)
 
 type ITransport interface {
 	peoples.PeoplesServiceServer

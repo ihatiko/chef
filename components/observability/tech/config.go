@@ -3,13 +3,17 @@ package tech
 import (
 	_ "embed"
 
-	"github.com/ihatiko/olymp/components/clients/http"
-	"github.com/ihatiko/olymp/components/clients/logger"
-	"github.com/ihatiko/olymp/components/clients/tracer"
+	"github.com/ihatiko/olymp/components/observability/http"
+	"github.com/ihatiko/olymp/components/observability/logger"
+	"github.com/ihatiko/olymp/components/observability/tracer"
 )
 
 //go:embed config/tech.config.toml
-var defaultConfig []byte
+var defaultTechConfig []byte
+
+const (
+	configPath = "config.toml"
+)
 
 type Service struct {
 	Name string `toml:"name"`
@@ -18,7 +22,7 @@ type Service struct {
 type Config struct {
 	Tech struct {
 		Service Service       `toml:"service"`
-		Log     logger.Config `toml:"log"`
+		Logger  logger.Config `toml:"logger"`
 		Tracer  tracer.Config `toml:"tracer"`
 		Http    http.Config   `toml:"http"`
 	} `toml:"tech"`

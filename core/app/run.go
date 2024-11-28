@@ -30,6 +30,7 @@ func Modules(components ...iface.IComponent) {
 	}
 	fatalState := true
 	for _, pkg := range store.PackageStore.Get() {
+		packageName := pkg.Name()
 		if env := os.Getenv("TECH_SERVICE_DEBUG"); env != "" {
 			if state, err := strconv.ParseBool(env); err == nil {
 				fatalState = !state
@@ -38,10 +39,10 @@ func Modules(components ...iface.IComponent) {
 		if pkg.HasError() {
 
 			if fatalState {
-				slog.Error("init package", slog.Any("error", pkg.Error()), slog.Any("package", pkg))
+				slog.Error("init package", slog.Any("error", pkg.Error()), slog.Any("package", packageName))
 				os.Exit(1)
 			} else {
-				slog.Debug("init package", slog.Any("error", pkg.Error()), slog.Any("package", pkg))
+				slog.Debug("init package", slog.Any("error", pkg.Error()), slog.Any("package", packageName))
 			}
 		}
 	}

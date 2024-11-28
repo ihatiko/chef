@@ -3,10 +3,10 @@ go 1.23.0
 use (
 	./example
 	./core
-	./components/infrastucture/tracer
-	./components/infrastucture/logger
-	./components/infrastucture/tech
-	./components/infrastucture/http
+	./components/observability/tracer
+	./components/observability/logger
+	./components/observability/tech
+	./components/observability/http
 	./components/transports/daemon
 	./components/transports/cron
 	./components/transports/grpc
