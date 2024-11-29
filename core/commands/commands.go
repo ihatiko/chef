@@ -82,7 +82,7 @@ func WithDeployment[Deployment iface.IDeployment]() func() (*cobra.Command, erro
 					fmt.Println(fmt.Sprintf("⛔️ Error construct deployment [%s] %s", name, deploymentPosition))
 					for _, errTypes := range collectErrors {
 						position := getFieldPosition(nodes, rAppType, fSet, errTypes.Name, errTypes.Type.String())
-						fmt.Println(fmt.Sprintf("⛔️ [%s %s] %s", errTypes.Name, errTypes.Type, position))
+						fmt.Println(fmt.Sprintf("⛔️ Empty field [%s %s] %s", errTypes.Name, errTypes.Type, position))
 					}
 					os.Exit(1)
 				}
