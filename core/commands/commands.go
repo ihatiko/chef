@@ -23,7 +23,6 @@ import (
 
 func WithDeployment[Deployment iface.IDeployment]() func() (*cobra.Command, error) {
 	return func() (*cobra.Command, error) {
-
 		return &cobra.Command{
 			Use: utils.ParseTypeName[Deployment](),
 			Run: func(cmd *cobra.Command, args []string) {
@@ -68,9 +67,8 @@ func WithDeployment[Deployment iface.IDeployment]() func() (*cobra.Command, erro
 					baseDir := filepath.Dir(p)
 					fPath := path.Join(baseDir, rAppType.PkgPath())
 					convertedPath := filepath.ToSlash(fPath)
-					r, err := os.ReadFile(convertedPath)
-					fset := token.NewFileSet()
-					nodes, err := parser.ParseDir(fset, convertedPath, nil, parser.ParseComments)
+					fSet := token.NewFileSet()
+					nodes, err := parser.ParseDir(fSet, convertedPath, nil, parser.ParseComments)
 					if err != nil {
 						slog.Error("Error in parsing dir", slog.Any("error", err))
 						os.Exit(1)
@@ -79,11 +77,11 @@ func WithDeployment[Deployment iface.IDeployment]() func() (*cobra.Command, erro
 					for _, v := range nodes {
 						for _, f := range v.Files {
 							for _, decl := range f.Decls {
-								if fDect, ok := decl.(*ast.GenDecl); ok {
-									for _, spec := range fDect.Specs {
+								if fDecl, ok := decl.(*ast.GenDecl); ok {
+									for _, spec := range fDecl.Specs {
 										if tSpec, ok := spec.(*ast.TypeSpec); ok {
 											if tSpec.Name.String() == rAppType.Name() {
-												filePosition = fset.Position(fDect.Pos())
+												filePosition = fSet.Position(fDecl.Pos())
 											}
 										}
 									}
@@ -91,9 +89,8 @@ func WithDeployment[Deployment iface.IDeployment]() func() (*cobra.Command, erro
 							}
 						}
 					}
-					fmt.Println(r, err, nodes)
 					name := reflect.TypeOf(*d).String()
-					fmt.Println(fmt.Sprintf("Error construct deployment [%s] with command %s position: %s", name, commandName, filePosition))
+					fmt.Println(fmt.Sprintf("Error construct deployment [%s] %s", name, filePosition))
 					fmt.Println("-----------------------")
 					fmt.Println(strings.Join(collectErrors, "\n"))
 					fmt.Println("-----------------------")
