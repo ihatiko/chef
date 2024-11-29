@@ -14,7 +14,7 @@ package planets
 import "github.com/ihatiko/olymp/components/transports/grpc"
 
 const (
-	sdkGrpcName = "Grpc PlanetsService"
+	sdkGrpcName = "GrpcExampleDeployment PlanetsService"
 )
 
 type PlanetsConfig struct {

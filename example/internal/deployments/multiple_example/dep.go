@@ -15,13 +15,13 @@ import (
 
 func (d MultipleExample) Dep() iface.IDeployment {
 	readPostgreSQL := d.ReadPostgreSQL.New()
-	planetsReadRepository := planetsReadRepository.New(readPostgreSQL)
-	planetsService := planetsService.New(planetsReadRepository)
-	d.iPlanetsTransport = planetsTransport.New(planetsService)
+	planetsRR := planetsReadRepository.New(readPostgreSQL)
+	planetsS := planetsService.New(planetsRR)
+	d.iPlanetsTransport = planetsTransport.New(planetsS)
 
 	redis := d.Redis.New()
-	peoplesRepository := peoplesRepository.New(redis)
-	peoplesService := peoplesService.New(peoplesRepository)
-	d.iPeoplesTransport = peoplesTransport.New(peoplesService)
+	peoplesR := peoplesRepository.New(redis)
+	peoplesS := peoplesService.New(peoplesR)
+	d.iPeoplesTransport = peoplesTransport.New(peoplesS)
 	return d
 }
