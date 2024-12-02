@@ -7,13 +7,13 @@ import (
 	"github.com/ihatiko/olymp/core/app"
 )
 
-type GrpcExample struct {
-	config.GrpcExample
+type Grpc struct {
+	config.Grpc
 	iPlanetsTransport planets.ITransport
 	iPeoplesTransport peoples.ITransport
 }
 
-func (d GrpcExample) Run() {
+func (d Grpc) Run() {
 	app.Modules(
 		d.PlanetsGrpcService.Use().Routing(d.iPlanetsTransport),
 		d.CharactersGrpcService.Use().Routing(d.iPeoplesTransport),

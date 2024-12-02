@@ -6,9 +6,9 @@ import (
 	"github.com/ihatiko/olymp/components/clients/postgresql"
 )
 
-type GrpcExample struct {
-	PlanetsGrpcService    protoPlanets.PlanetsConfig `toml:"grpc"`
-	CharactersGrpcService protoPeoples.PeoplesConfig `toml:"grpc"`
+type Grpc struct {
+	PlanetsGrpcService    protoPlanets.PlanetsConfig `toml:"grpc-server"`
+	CharactersGrpcService protoPeoples.PeoplesConfig `toml:"grpc-server"`
 	ReadPostgreSQL        postgresql.Config          `toml:"read-postgresql"`
 	WritePostgreSQL       postgresql.Config          `toml:"write-postgresql"`
 }

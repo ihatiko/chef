@@ -11,6 +11,6 @@ func main() {
 	commands.WithApp(
 		commands.WithDeployment[daemonDeployment.Daemon](),
 		commands.WithDeployment[multipleExampleDeployment.MultipleExample](),
-		commands.WithDeployment[grpcDeployment.GrpcExample](),
+		commands.WithDeployment[grpcDeployment.Grpc](),
 	)
 }

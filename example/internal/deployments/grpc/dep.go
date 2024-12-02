@@ -6,7 +6,7 @@ import (
 	"github.com/ihatiko/olymp/core/iface"
 )
 
-func (d GrpcExample) Dep() iface.IDeployment {
+func (d Grpc) Dep() iface.IDeployment {
 	//readPostgreSQL := d.ReadPostgreSQL.New()
 	//readRepository := planetsReadRepository.New(readPostgreSQL)
 	//service := planetsService.New(readRepository)

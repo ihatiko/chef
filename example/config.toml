@@ -43,7 +43,7 @@ timeout = "30s"
 # количество паралельных воркеров через горутины
 workers = 1
 
-[grpc]
+[grpc-server]
 # порт grpc
 port = ":10001"
 
