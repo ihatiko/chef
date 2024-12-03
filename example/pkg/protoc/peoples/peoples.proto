@@ -2,14 +2,55 @@ syntax = "proto3";
 package characters;
 option go_package = "..;peoples";
 
-message UpdatePeopleRequest {
+message UpdateRequest {
 
 }
 
-message UpdatePeopleResponse {
+message UpdateResponse {
 
+}
+
+message CreateRequest {
+
+}
+
+message CreateResponse {
+
+}
+
+message DeleteRequest {
+
+}
+
+message DeleteResponse {
+
+}
+
+message GetByIdRequest {
+
+}
+
+message GetByIdResponse {
+
+}
+
+message GetByPaginationRequest {
+  int32 limit = 1;
+  int32 offset = 2;
+}
+
+message PaginationInfo {
+  int32 total = 1;
+}
+
+message GetByPaginationResponse {
+    PaginationInfo pagination = 1;
 }
 
 service PeoplesService{
-  rpc UpdatePeople(UpdatePeopleRequest) returns (UpdatePeopleResponse) {}
+  rpc Update(UpdateRequest) returns (UpdateResponse) {}
+  rpc Create(CreateRequest) returns (CreateResponse) {}
+  rpc Delete(DeleteRequest) returns (DeleteResponse) {}
+  rpc GetById(GetByIdRequest) returns (GetByIdResponse) {}
+  rpc GetByPagination(GetByPaginationRequest) returns (GetByPaginationResponse) {}
 }
