@@ -5,9 +5,9 @@ import (
 	"errors"
 	"fmt"
 	"log/slog"
+	"math"
 	"net"
 	"os"
-	"runtime/debug"
 	"sync"
 	"time"
 
@@ -27,6 +27,12 @@ import (
 
 const componentName = "grpc-server"
 
+var (
+	defaultMaxConnectionAge    = 10 * time.Second
+	defaultMaxConnectionIdle   = 10 * time.Second
+	defaultTimeKeepaliveParams = 10 * time.Second
+	defaultMaxSizeOption       = math.MaxInt64
+)
 var transport = make(map[string]Transport)
 var active = make(map[string]struct{})
 var shutdown = make(map[string]struct{})
@@ -58,23 +64,17 @@ type Options func(*Transport)
 
 func logPanic(p any) error {
 	panicID := uuid.New().String()
+
+	args := []any{slog.String("panic_id", panicID), slog.Any("panic", p)}
 	slog.Error(
 		"panic occurred",
-		slog.String("panic", panicID),
-		slog.Any("panic", p),
-		slog.String("stack", string(debug.Stack())),
+		args...,
 	)
 	return status.Errorf(codes.Internal, "panic (id: %s)", panicID)
 }
 func (t Transport) Name() string {
 	return fmt.Sprintf("%s port: %s", componentName, t.Cfg.Port)
 }
-
-var (
-	defaultMaxConnectionAge  = 10 * time.Second
-	defaultMaxConnectionIdle = 10 * time.Second
-	defaultKeepaliveParams   = 10 * time.Second
-)
 
 // Use Инициализация транспортного слоя grpc
 func (c *Config) Use(
@@ -95,7 +95,10 @@ func (c *Config) Use(
 		c.MaxConnectionAge = defaultMaxConnectionAge
 	}
 	if c.TimeKeepaliveParams == 0 {
-		c.TimeKeepaliveParams = defaultKeepaliveParams
+		c.TimeKeepaliveParams = defaultTimeKeepaliveParams
+	}
+	if c.MaxRecMessageSize == 0 {
+		c.MaxRecMessageSize = defaultMaxSizeOption
 	}
 	if t, ok := transport[c.Port]; ok {
 		defer mt.Unlock()
@@ -143,6 +146,7 @@ func (c *Config) Use(
 		rt(t)
 	}
 	if t.Cfg.Reflect != nil && *t.Cfg.Reflect {
+		slog.Info("registering reflection service int grpc module", slog.Any("component", t.Name()))
 		reflection.Register(t.App)
 	}
 	transport[c.Port] = *t
