@@ -4,22 +4,20 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"log/slog"
 	"net"
+	"os"
 	"runtime/debug"
 	"sync"
 	"time"
 
 	"github.com/google/uuid"
 	grpcMiddleware "github.com/grpc-ecosystem/go-grpc-middleware"
-	grpcLogger "github.com/grpc-ecosystem/go-grpc-middleware/logging/zap"
 	grpcRecovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	grpcCtxtags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
 	grpcOpentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 	grpcPrometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	healthz "github.com/ihatiko/olymp/components/transports/grpc/protoc/health"
-	"github.com/uptrace/opentelemetry-go-extra/otelzap"
-	"go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
-	"go.uber.org/zap"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/keepalive"
@@ -27,11 +25,11 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-const componentName = "grpc"
+const componentName = "grpc-server"
 
-var transport map[string]Transport = make(map[string]Transport)
-var active map[string]struct{} = make(map[string]struct{})
-var shutdown map[string]struct{} = make(map[string]struct{})
+var transport = make(map[string]Transport)
+var active = make(map[string]struct{})
+var shutdown = make(map[string]struct{})
 
 var mt sync.Mutex
 
@@ -60,11 +58,11 @@ type Options func(*Transport)
 
 func logPanic(p any) error {
 	panicID := uuid.New().String()
-	otelzap.L().Error(
+	slog.Error(
 		"panic occurred",
-		zap.String("panic_id", panicID),
-		zap.Any("panic", p),
-		zap.ByteString("stacktrace", debug.Stack()),
+		slog.String("panic", panicID),
+		slog.Any("panic", p),
+		slog.String("stack", string(debug.Stack())),
 	)
 	return status.Errorf(codes.Internal, "panic (id: %s)", panicID)
 }
@@ -72,20 +70,39 @@ func (t Transport) Name() string {
 	return fmt.Sprintf("%s port: %s", componentName, t.Cfg.Port)
 }
 
-// Инициализация транспортного слоя grpc
-func (cfg *Config) Use(
+var (
+	defaultMaxConnectionAge  = 10 * time.Second
+	defaultMaxConnectionIdle = 10 * time.Second
+	defaultKeepaliveParams   = 10 * time.Second
+)
+
+// Use Инициализация транспортного слоя grpc
+func (c *Config) Use(
 	opts ...Options,
 ) Transport {
 	mt.Lock()
-	if cfg.Port == "" {
-		cfg.Port = defaultPort
+	if c.Port == "" {
+		c.Port = defaultPort
 	}
-	if t, ok := transport[cfg.Port]; ok {
+	if c.Reflect == nil {
+		reflectState := true
+		c.Reflect = &reflectState
+	}
+	if c.MaxConnectionIdle == 0 {
+		c.MaxConnectionIdle = defaultMaxConnectionIdle
+	}
+	if c.MaxConnectionAge == 0 {
+		c.MaxConnectionAge = defaultMaxConnectionAge
+	}
+	if c.TimeKeepaliveParams == 0 {
+		c.TimeKeepaliveParams = defaultKeepaliveParams
+	}
+	if t, ok := transport[c.Port]; ok {
 		defer mt.Unlock()
 		return t
 	}
 	t := new(Transport)
-	t.Cfg = cfg
+	t.Cfg = c
 	if t.Cfg.Metrics.EnableHandlingTimeHistogram {
 		grpcPrometheus.EnableHandlingTimeHistogram()
 	}
@@ -94,12 +111,12 @@ func (cfg *Config) Use(
 	}
 
 	t.App = grpc.NewServer(
-		grpc.MaxRecvMsgSize(t.Cfg.MaxRecvMsgSize),
+		grpc.MaxRecvMsgSize(t.Cfg.MaxRecMessageSize),
 		grpc.KeepaliveParams(keepalive.ServerParameters{
 			MaxConnectionIdle: t.Cfg.MaxConnectionIdle,
 			Timeout:           t.Cfg.TimeOut,
 			MaxConnectionAge:  t.Cfg.MaxConnectionAge,
-			Time:              t.Cfg.Time,
+			Time:              t.Cfg.TimeKeepaliveParams,
 		}),
 		grpc.ChainStreamInterceptor(
 			grpcRecovery.StreamServerInterceptor(
@@ -109,10 +126,7 @@ func (cfg *Config) Use(
 			grpcOpentracing.StreamServerInterceptor(),
 			grpcCtxtags.StreamServerInterceptor(),
 			grpcPrometheus.StreamServerInterceptor,
-			otelgrpc.StreamServerInterceptor(),
-			grpcLogger.StreamServerInterceptor(
-				otelzap.L().Logger,
-			),
+			// TODO logger
 		),
 		grpc.ChainUnaryInterceptor(
 			grpcRecovery.UnaryServerInterceptor(
@@ -121,73 +135,70 @@ func (cfg *Config) Use(
 			grpcCtxtags.UnaryServerInterceptor(),
 			grpcOpentracing.UnaryServerInterceptor(),
 			grpcPrometheus.UnaryServerInterceptor,
-			otelgrpc.UnaryServerInterceptor(),
-			grpcLogger.UnaryServerInterceptor(
-				otelzap.L().Logger,
-			),
+			//TODO logger
 		),
 	)
 
 	for _, rt := range opts {
 		rt(t)
 	}
-	if t.Cfg.Reflect {
+	if t.Cfg.Reflect != nil && *t.Cfg.Reflect {
 		reflection.Register(t.App)
 	}
-	transport[cfg.Port] = *t
+	transport[c.Port] = *t
 	mt.Unlock()
 	return *t
 }
 
-// Native
+// Routing Native
 func (t Transport) Routing(registrar grpc.ServiceDesc, impl any) Transport {
 	t.App.RegisterService(&registrar, impl)
 	return t
 }
 
-// Запуск транспортного слоя
-func (t Transport) Run() {
+// Run Запуск транспортного слоя
+func (t Transport) Run() error {
 	mt.Lock()
 	if _, ok := active[t.Cfg.Port]; ok {
 		defer mt.Unlock()
-		return
+		return nil
 	}
-	otelzap.S().Infof("starting gRPC Transport port: %s ...", t.Cfg.Port)
+	slog.Info("Starting gRPC Transport...", slog.String("port", t.Cfg.Port))
 	listener, err := net.Listen("tcp", t.Cfg.Port)
 	if err != nil {
-		otelzap.S().Fatal(err)
+		slog.Error("failed to listen", slog.String("port", t.Cfg.Port), slog.Any("error", err))
+		os.Exit(1)
 	}
 	if t.Cfg.Healthz {
-		otelzap.S().Info("init healthz check point ...")
+		slog.Info("init healthz check point ...")
 		d := new(healthz.Health)
 		healthz.RegisterHealthServer(t.App, d)
-		otelzap.S().Info("init healthz check point ... done")
+		slog.Info("init healthz check point ... done")
 	}
 	active[t.Cfg.Port] = struct{}{}
 	mt.Unlock()
 	err = t.App.Serve(listener)
 	if err != nil {
 		if errors.Is(err, grpc.ErrServerStopped) {
-			otelzap.S().Warnf("%v", err)
-			return
+			return fmt.Errorf("gRPC Transport is stopped error: %v", err)
 		}
 		if errors.Is(err, context.Canceled) {
-			return
+			return fmt.Errorf("gRPC Transport is stopped error: %v", err)
 		}
 		if errors.Is(err, context.DeadlineExceeded) {
-			otelzap.S().Warn(err)
-			return
+			return fmt.Errorf("gRPC Transport is stopped error: %v", err)
 		}
-		otelzap.S().Fatal(err)
+		return fmt.Errorf("gRPC Transport failed: %v", err)
 	}
+	return nil
 }
 
 // TimeToWait Ожидание сколько нужно ждать перед выключением сервера
 func (t Transport) TimeToWait() time.Duration {
-	return t.Cfg.TimeOut * time.Second
+	return t.Cfg.TimeKeepaliveParams
 }
 
-// Shutdown Безопасное выключение сервера (gracefull)
+// Shutdown Безопасное выключение сервера (graceful)
 func (t Transport) Shutdown() error {
 	mt.Lock()
 	if _, ok := shutdown[t.Cfg.Port]; ok {

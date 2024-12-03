@@ -13,20 +13,17 @@ import (
 
 func (a *App) Graceful(components []iface.IComponent) {
 	<-a.Wait()
-	slog.Info("starting graceful before components...")
 	a.BeforeShutdown(components)
-	slog.Info("starting graceful before components... done")
 	slog.Info("starting shutdown ...")
 	a.Shutdown(components)
-	slog.Info("starting shutdown ... done")
+
 	slog.Info("starting delay [terminating old requests] ...")
 	Delay(
 		components...,
 	)
 	slog.Info("starting delay [terminating old requests] ... done")
-	slog.Info("starting graceful after components...")
 	a.AfterShutdown(components)
-	slog.Info("starting graceful after components... done")
+	slog.Info("starting shutdown ... done")
 	slog.Info("Server exit properly")
 }
 

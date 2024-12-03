@@ -3,5 +3,5 @@ package iface
 type IComponent interface {
 	IShutdownComponent
 	ILive
-	Run()
+	Run() error
 }

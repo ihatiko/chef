@@ -31,30 +31,28 @@ func Modules(components ...iface.IComponent) {
 	fatalState := true
 	for _, pkg := range store.PackageStore.Get() {
 		packageName := pkg.Name()
-		if env := os.Getenv("TECH_SERVICE_DEBUG"); env != "" {
+		if env := os.Getenv("TECH.SERVICE.DEBUG"); env != "" {
 			if state, err := strconv.ParseBool(env); err == nil {
 				fatalState = !state
 			}
 		}
 		if pkg.HasError() {
-
 			if fatalState {
-				slog.Error("init package", slog.Any("error", pkg.Error()), slog.Any("package", packageName))
+				slog.Error("init package", slog.Any("error", pkg.Error()), slog.String("package", packageName))
 				os.Exit(1)
 			} else {
-				slog.Debug("init package", slog.Any("error", pkg.Error()), slog.Any("package", packageName))
+				slog.Warn("init package", slog.Any("error", pkg.Error()), slog.String("package", packageName))
 			}
 		}
 	}
 	for _, component := range app.Components {
 		store.LivenessStore.Load(component)
 		if component == nil {
-
 			if fatalState {
 				slog.Error("empty struct [func Deployment(components ...iface.IComponent)]")
 				os.Exit(1)
 			} else {
-				slog.Debug("empty struct [func Deployment(components ...iface.IComponent)]")
+				slog.Warn("empty struct [func Deployment(components ...iface.IComponent)]")
 			}
 			return
 		}
@@ -69,7 +67,11 @@ func Modules(components ...iface.IComponent) {
 					}
 				}
 			}()
-			component.Run()
+			err := component.Run()
+			if err != nil {
+				slog.Error("error run component", slog.Any("error", err))
+				os.Exit(1)
+			}
 		}(component)
 	}
 	app.Graceful(app.Components)

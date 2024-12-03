@@ -3,11 +3,11 @@ package http
 import "time"
 
 type Config struct {
-	Port          int
-	PprofPort     int
-	Timeout       time.Duration
-	Pprof         bool
-	LivenessPath  string
-	ReadinessPath string
-	MetricsPath   string
+	Port          int           `toml:"port"`
+	PprofPort     int           `toml:"pprof_port"`
+	Timeout       time.Duration `toml:"timeout"`
+	Pprof         bool          `toml:"pprof"`
+	LivenessPath  string        `toml:"liveness_path"`
+	ReadinessPath string        `toml:"readiness_path"`
+	MetricsPath   string        `toml:"metrics_path"`
 }

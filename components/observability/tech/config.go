@@ -11,10 +11,6 @@ import (
 //go:embed config/tech.config.toml
 var defaultTechConfig []byte
 
-const (
-	configPath = "config.toml"
-)
-
 type Service struct {
 	Name string `toml:"name"`
 }

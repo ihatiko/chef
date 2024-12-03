@@ -11,8 +11,8 @@ import (
 type Option = func(config *Config)
 
 type Config struct {
-	Encoding string
-	Level    slog.Level
+	Encoding string     `toml:"encoding"`
+	Level    slog.Level `toml:"level"`
 }
 
 func (c *Config) New(opts ...Option) {
@@ -21,7 +21,8 @@ func (c *Config) New(opts ...Option) {
 	}
 	opt := new(slog.HandlerOptions)
 	opt.Level = c.Level
-	if env := os.Getenv("TECH_SERVICE_DEBUG"); env != "" {
+	opt.AddSource = false
+	if env := os.Getenv("TECH.SERVICE.DEBUG"); env != "" {
 		if state, err := strconv.ParseBool(env); err == nil {
 			if state {
 				opt.Level = slog.LevelDebug
@@ -34,7 +35,10 @@ func (c *Config) New(opts ...Option) {
 		logger := slog.New(h)
 		slog.SetDefault(logger)
 	} else {
-		h := tint.NewHandler(os.Stdout, nil)
+		h := tint.NewHandler(os.Stdout, &tint.Options{
+			Level:     opt.Level,
+			AddSource: false,
+		})
 		logger := slog.New(h)
 		slog.SetDefault(logger)
 	}

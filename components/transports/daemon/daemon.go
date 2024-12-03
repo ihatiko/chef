@@ -78,10 +78,10 @@ func (t transport) Routing(fn h) transport {
 	return t
 }
 
-func (t transport) Run() {
+func (t transport) Run() error {
 	slog.Info("starting daemon")
 	if t.h == nil {
-		otelzap.L().Fatal("daemon transport handler is nil")
+		return errors.New("daemon transport handler is nil")
 	}
 	for range t.Ticker.C {
 		wg := &sync.WaitGroup{}
@@ -100,6 +100,7 @@ func (t transport) Run() {
 		}
 		wg.Wait()
 	}
+	return nil
 }
 
 func (t transport) handler(id int) {

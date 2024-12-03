@@ -64,9 +64,9 @@ func (t transport) Routing(h h) transport {
 func (t transport) Live(ctx context.Context) error {
 	return nil
 }
-func (t transport) Run() {
+func (t transport) Run() error {
 	if t.h == nil {
-		otelzap.L().Fatal("cron transport handler is nil")
+		return errors.New("cron transport handler is nil")
 	}
 	wg := &sync.WaitGroup{}
 	wg.Add(t.Config.Workers)
@@ -83,6 +83,7 @@ func (t transport) Run() {
 		}(i)
 	}
 	wg.Wait()
+	return nil
 }
 
 func (t transport) handler(id int) {

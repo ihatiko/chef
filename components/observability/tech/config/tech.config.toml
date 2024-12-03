@@ -6,11 +6,11 @@ debug = true
 
 [tech.http]
 port = 8080
-pprof-port = 8081
+pprof_port = 8081
 pprof = false
-liveness-path = "/liveness"
-readiness-path = "/readiness"
-metrics-path = "/metrics"
+liveness_path = "/liveness"
+readiness_path = "/readiness"
+metrics_path = "/metrics"
 
 [tech.tracer]
 host = "http://localhost:14268/api/traces"

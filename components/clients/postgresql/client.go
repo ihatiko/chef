@@ -10,7 +10,6 @@ import (
 	"github.com/ihatiko/olymp/core/store"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/jmoiron/sqlx"
-	"github.com/pkg/errors"
 	"github.com/uptrace/opentelemetry-go-extra/otelsql"
 	"github.com/uptrace/opentelemetry-go-extra/otelsqlx"
 	"go.opentelemetry.io/otel/attribute"
@@ -84,11 +83,11 @@ func (c Client) Name() string {
 	return fmt.Sprintf("name: %s host:%s port: %d", postgresql, c.cfg.Host, c.cfg.Port)
 }
 
-func (cfg *Config) New() Client {
-	pg, err := cfg.newConnection()
-	c := Client{Db: pg, cfg: cfg, err: err}
-	store.PackageStore.Load(c)
-	return c
+func (c *Config) New() Client {
+	pg, err := c.newConnection()
+	client := Client{Db: pg, cfg: c, err: err}
+	store.PackageStore.Load(client)
+	return client
 }
 
 func (c *Config) newConnection() (*sqlx.DB, error) {
@@ -121,7 +120,7 @@ func (c *Config) newConnection() (*sqlx.DB, error) {
 		otelsql.WithMeterProvider(getMetricProvider()),
 	)
 	if err != nil {
-		return nil, errors.Wrap(err, "Database.Connect")
+		return nil, err
 	}
 
 	db.SetMaxOpenConns(c.MaxIdleConnections)
