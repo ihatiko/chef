@@ -7,3 +7,9 @@ install-deps:
 get-deps:
 	go get -u google.golang.org/protobuf/cmd/protoc-gen-go
 	go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
+
+compile-proto:
+	protoc -I . \
+        --go_out . --go_opt paths=source_relative \
+        --go-grpc_out . --go-grpc_opt paths=source_relative --go-grpc_opt=require_unimplemented_servers=false \
+        ./pkg/protoc/*/*.proto
