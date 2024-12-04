@@ -1,4 +1,4 @@
-package config
+package grpc
 
 import (
 	protoPeoples "example/pkg/protoc/peoples"
@@ -7,7 +7,7 @@ import (
 	"github.com/ihatiko/olymp/components/clients/redis"
 )
 
-type Grpc struct {
+type Config struct {
 	PlanetsGrpcService    protoPlanets.PlanetsConfig `toml:"grpc-server"`
 	CharactersGrpcService protoPeoples.PeoplesConfig `toml:"grpc-server"`
 	Redis                 redis.Config               `toml:"redis"`

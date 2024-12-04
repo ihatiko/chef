@@ -20,10 +20,28 @@ import (
 	"runtime/debug"
 )
 
-func WithDeployment[Deployment iface.IDeployment]() func() (*cobra.Command, error) {
+type Settings struct {
+	Name string
+}
+type opt = func(*Settings)
+
+func WithName(name string) opt {
+	return func(s *Settings) {
+		s.Name = name
+	}
+}
+
+func WithDeployment[Deployment iface.IDeployment](opts ...opt) func() (*cobra.Command, error) {
 	return func() (*cobra.Command, error) {
+		s := new(Settings)
+		for _, o := range opts {
+			o(s)
+		}
+		if s.Name == "" {
+			s.Name = utils.ParseTypeName[Deployment]()
+		}
 		return &cobra.Command{
-			Use: utils.ParseTypeName[Deployment](),
+			Use: s.Name,
 			Run: func(cmd *cobra.Command, args []string) {
 				d := new(Deployment)
 

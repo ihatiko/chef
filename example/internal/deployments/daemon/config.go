@@ -1,4 +1,4 @@
-package config
+package daemon
 
 import (
 	"github.com/ihatiko/olymp/components/clients/postgresql"
@@ -6,7 +6,7 @@ import (
 	"github.com/ihatiko/olymp/components/transports/daemon"
 )
 
-type DaemonDeploymentExample struct {
+type Config struct {
 	Daemon          daemon.Config     `toml:"daemon"`
 	ReadPostgreSQL  postgresql.Config `toml:"read-postgresql"`
 	WritePostgreSQL postgresql.Config `toml:"write-postgresql"`

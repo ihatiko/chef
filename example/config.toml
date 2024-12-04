@@ -11,6 +11,7 @@ replicas = 3
 type = "CronJob"
 schedule = "* * * * *"
 quotas = { cpu = "100m", memory = "128mi" }
+override = { tech.logger = "json", tech.logger = "{{tech.logger}}" }
 # default quotas = { cpu = "100m", memory = "128mi"}
 # if quotas empty limits = {}
 # if quotas empty requests = {}

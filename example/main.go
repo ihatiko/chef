@@ -1,14 +1,14 @@
 package main
 
 import (
-	daemonDeployment "example/internal/deployments/daemon"
-	grpcDeployment "example/internal/deployments/grpc"
+	"example/internal/deployments/daemon"
+	"example/internal/deployments/grpc"
 	"github.com/ihatiko/olymp/core/commands"
 )
 
 func main() {
 	commands.WithApp(
-		commands.WithDeployment[daemonDeployment.Daemon](),
-		commands.WithDeployment[grpcDeployment.Grpc](),
+		commands.WithDeployment[daemon.Deployment](),
+		commands.WithDeployment[grpc.Deployment](),
 	)
 }
