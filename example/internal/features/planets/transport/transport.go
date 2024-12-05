@@ -15,7 +15,9 @@ type transport struct {
 }
 
 func New(service planets.IService) planets.ITransport {
-	return &transport{}
+	return &transport{
+		service: service,
+	}
 }
 
 func (t transport) UpdatePlanet(ctx context.Context, request *protoPlanets.UpdatePlanetRequest) (*protoPlanets.UpdatePlanetResponse, error) {
