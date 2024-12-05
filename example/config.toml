@@ -63,7 +63,7 @@ user = "postgres"
 password = "postgres"
 
 [redis]
-addr = "localhost:6379"
+host = "localhost:6379"
 db = 0
 
 [kafka]

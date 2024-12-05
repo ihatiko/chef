@@ -28,7 +28,7 @@ type Client struct {
 }
 
 func (c Client) Name() string {
-	return fmt.Sprintf("name: %s host:%s sentinelAddrs: %v", keyValue, c.cfg.Addr, c.cfg.SentinelAddrs)
+	return fmt.Sprintf("name: %s host:%s sentinelAddrs: %v", keyValue, c.cfg.Host, c.cfg.SentinelAddrs)
 }
 
 func (c Client) Live(ctx context.Context) error {
@@ -57,6 +57,9 @@ func (c *Config) New() Client {
 	if c.WriteTimeout == 0 {
 		c.WriteTimeout = defaultWriteTimeout * time.Second
 	}
+	if c.MaxIdleConns == 0 {
+		c.MaxIdleConns = defaultMaxIdleConnections
+	}
 	if c.Sentinels {
 		client.Db = redis.NewFailoverClient(&redis.FailoverOptions{
 			MasterName:      c.MasterName,
@@ -66,17 +69,19 @@ func (c *Config) New() Client {
 			ReadTimeout:     c.ReadTimeout,
 			ConnMaxIdleTime: c.ConnMaxIdleTime,
 			ConnMaxLifetime: c.ConnMaxLifetime,
+			MaxIdleConns:    c.MaxIdleConns,
 		})
 	} else {
 		client.Db = redis.NewClient(&redis.Options{
-			Addr:            c.Addr,
+			Addr:            c.Host,
 			Password:        c.Password,
 			DB:              c.Database,
-			Username:        c.UserName,
+			Username:        c.Login,
 			WriteTimeout:    c.WriteTimeout,
 			ReadTimeout:     c.ReadTimeout,
 			ConnMaxIdleTime: c.ConnMaxIdleTime,
 			ConnMaxLifetime: c.ConnMaxLifetime,
+			MaxIdleConns:    defaultMaxIdleConnections,
 		})
 	}
 	if err := redisotel.InstrumentTracing(client.Db); err != nil {
