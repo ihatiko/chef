@@ -88,10 +88,6 @@ func (c *Config) New() Client {
 		client.err = err
 		return client
 	}
-	if err := redisotel.InstrumentMetrics(client.Db); err != nil {
-		client.err = err
-		return client
-	}
 	client.err = client.Db.Ping(context.Background()).Err()
 	store.PackageStore.Load(client)
 	return client
