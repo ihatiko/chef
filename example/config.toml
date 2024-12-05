@@ -51,22 +51,20 @@ port = ":10001"
 [read-postgresql]
 host = "localhost"
 port = 5432
-database = "example"
+database = "postgres"
 user = "postgres"
 password = "postgres"
 
 [write-postgresql]
 host = "localhost"
 port = 5432
-database = "example"
+database = "postgres"
 user = "postgres"
 password = "postgres"
 
 [redis]
 addr = "localhost:6379"
 db = 0
-masterName = "mymaster"
-sentinelAddrs = [":26379", ":26379", ":26379"]
 
 [kafka]
 brokers = ["localhost:9092"]

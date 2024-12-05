@@ -28,7 +28,7 @@ type Client struct {
 }
 
 func (c Client) Name() string {
-	return fmt.Sprintf("name: %s host:%s hosts: %v", keyValue, c.cfg.Addr, c.cfg.SentinelAddrs)
+	return fmt.Sprintf("name: %s host:%s sentinelAddrs: %v", keyValue, c.cfg.Addr, c.cfg.SentinelAddrs)
 }
 
 func (c Client) Live(ctx context.Context) error {
