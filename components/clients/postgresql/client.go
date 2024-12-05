@@ -80,7 +80,7 @@ func (c Client) HasError() bool {
 }
 
 func (c Client) Name() string {
-	return fmt.Sprintf("name: %s host:%s port: %d", postgresql, c.cfg.Host, c.cfg.Port)
+	return fmt.Sprintf("name: %s host:%s port: %d database: %s", postgresql, c.cfg.Host, c.cfg.Port, c.cfg.Database)
 }
 
 func (c *Config) New() Client {

@@ -3,8 +3,8 @@ package redis
 import "time"
 
 type Config struct {
-	Host            string        `json:"addr"`
-	Login           string        `toml:"user_name"`
+	Host            string        `json:"host"`
+	Login           string        `toml:"login"`
 	Password        string        `toml:"password"`
 	Database        int           `toml:"database"`
 	SentinelAddrs   []string      `toml:"sentinel_addrs"`

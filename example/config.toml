@@ -64,7 +64,7 @@ password = "postgres"
 
 [redis]
 host = "localhost:6379"
-db = 0
+database = 0
 
 [kafka]
 brokers = ["localhost:9092"]

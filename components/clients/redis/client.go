@@ -28,7 +28,7 @@ type Client struct {
 }
 
 func (c Client) Name() string {
-	return fmt.Sprintf("name: %s host:%s sentinelAddrs: %v", keyValue, c.cfg.Host, c.cfg.SentinelAddrs)
+	return fmt.Sprintf("name: %s host:%s database:%d", keyValue, c.cfg.Host, c.cfg.Database)
 }
 
 func (c Client) Live(ctx context.Context) error {
@@ -81,7 +81,7 @@ func (c *Config) New() Client {
 			ReadTimeout:     c.ReadTimeout,
 			ConnMaxIdleTime: c.ConnMaxIdleTime,
 			ConnMaxLifetime: c.ConnMaxLifetime,
-			MaxIdleConns:    defaultMaxIdleConnections,
+			MaxIdleConns:    c.MaxIdleConns,
 		})
 	}
 	if err := redisotel.InstrumentTracing(client.Db); err != nil {
