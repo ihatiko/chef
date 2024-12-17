@@ -6,26 +6,19 @@ package planets
 import "github.com/ihatiko/olymp/components/transports/grpc"
 
 const (
-	sdkGrpcName = "Grpc PlanetsService"
+	sdkGrpcName = "Grpc.PlanetsService"
 )
 
 type PlanetsConfig struct {
 	grpc.Config
 }
 
-type PlanetsTransport struct {
-	grpc.Transport
-}
-
-func (p *PlanetsConfig) Use() PlanetsTransport {
-	return PlanetsTransport{Transport: p.Config.Use()}
-}
-
 func (p *PlanetsConfig) Name() string {
 	return sdkGrpcName
 }
 
-func (t PlanetsTransport) Routing(impl PlanetsServiceServer) PlanetsTransport {
-	t.Transport.Routing(PlanetsService_ServiceDesc, impl)
+func (p *PlanetsConfig) Setup(impl PlanetsServiceServer) grpc.Transport {
+	t := p.Use()
+	t.Routing(PlanetsService_ServiceDesc, impl)
 	return t
 }

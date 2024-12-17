@@ -6,26 +6,19 @@ package peoples
 import "github.com/ihatiko/olymp/components/transports/grpc"
 
 const (
-	sdkGrpcName = "Grpc PlanetsService"
+	sdkGrpcName = "Grpc.PlanetsService"
 )
 
 type PeoplesConfig struct {
 	grpc.Config
 }
 
-type PeoplesTransport struct {
-	grpc.Transport
-}
-
-func (p *PeoplesConfig) Use() PeoplesTransport {
-	return PeoplesTransport{Transport: p.Config.Use()}
-}
-
 func (p *PeoplesConfig) Name() string {
 	return sdkGrpcName
 }
 
-func (t PeoplesTransport) Routing(impl PeoplesServiceServer) PeoplesTransport {
-	t.Transport.Routing(PeoplesService_ServiceDesc, impl)
+func (p *PeoplesConfig) Setup(impl PeoplesServiceServer) grpc.Transport {
+	t := p.Config.Use()
+	t.Routing(PeoplesService_ServiceDesc, impl)
 	return t
 }

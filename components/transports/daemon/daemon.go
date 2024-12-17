@@ -41,19 +41,19 @@ func (c *Request) Context() context.Context {
 
 type h func(context Request) error
 
-type transport struct {
+type Transport struct {
 	Config *Config
 	h      h
 	Ticker *time.Ticker
 }
-type Options func(*transport)
+type Options func(*Transport)
 
-func (t transport) Name() string {
+func (t Transport) Name() string {
 	return fmt.Sprintf("%s id: %s", componentName, uuid.New().String())
 }
 
-func (cfg *Config) Use(opts ...Options) transport {
-	t := new(transport)
+func (cfg *Config) Setup(fn h, opts ...Options) Transport {
+	t := new(Transport)
 
 	t.Config = cfg
 	for _, opt := range opts {
@@ -69,16 +69,16 @@ func (cfg *Config) Use(opts ...Options) transport {
 	if t.Config.Workers != 0 {
 		t.Config.Workers = defaultWorker
 	}
-
+	t.h = fn
 	return *t
 }
 
-func (t transport) Routing(fn h) transport {
+func (t Transport) Routing(fn h) Transport {
 	t.h = fn
 	return t
 }
 
-func (t transport) Run() error {
+func (t Transport) Run() error {
 	slog.Info("starting daemon")
 	if t.h == nil {
 		return errors.New("daemon transport handler is nil")
@@ -103,7 +103,7 @@ func (t transport) Run() error {
 	return nil
 }
 
-func (t transport) handler(id int) {
+func (t Transport) handler(id int) {
 	ctx, cancel := context.WithTimeout(context.TODO(), t.Config.Timeout)
 	defer func() {
 		if r := recover(); r != nil {
@@ -137,15 +137,15 @@ func (t transport) handler(id int) {
 	successDaemon.WithLabelValues().Inc()
 }
 
-func (t transport) Live(ctx context.Context) error {
+func (t Transport) Live(ctx context.Context) error {
 	return nil
 }
 
-func (t transport) TimeToWait() time.Duration {
+func (t Transport) TimeToWait() time.Duration {
 	return t.Config.Timeout
 }
 
-func (t transport) Shutdown() error {
+func (t Transport) Shutdown() error {
 	t.Ticker.Stop()
 	return nil
 }

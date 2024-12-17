@@ -12,6 +12,6 @@ type Deployment struct {
 
 func (d Deployment) Run() {
 	app.Modules(
-		d.Daemon.Use().Routing(d.transport.Load),
+		d.Daemon.Setup(d.transport.Load),
 	)
 }

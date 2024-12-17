@@ -4,10 +4,9 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/IBM/sarama"
 	"strings"
 	"sync"
-
-	"github.com/segmentio/kafka-go"
 )
 
 const (
@@ -25,6 +24,7 @@ func (c Client) Name() string {
 }
 
 func (c Client) Live(ctx context.Context) error {
+	sarama.Consumer(c.cfg.Brokers, c.topics, sarama.NewConfig())
 	wg := sync.WaitGroup{}
 	wg.Add(len(c.cfg.Brokers))
 	mt := sync.Mutex{}
@@ -32,7 +32,7 @@ func (c Client) Live(ctx context.Context) error {
 	for _, broker := range c.cfg.Brokers {
 		go func(br string) {
 			defer wg.Done()
-			_, err := kafka.DialContext(ctx, "tcp", broker)
+			_, err := sarama.DialContext(ctx, "tcp", broker)
 			if err != nil {
 				mt.Lock()
 				liveResult = append(liveResult, err)

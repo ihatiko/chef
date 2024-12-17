@@ -14,7 +14,7 @@ type Deployment struct {
 
 func (d Deployment) Run() {
 	app.Modules(
-		d.PlanetsGrpcService.Use().Routing(d.iPlanetsTransport),
-		d.CharactersGrpcService.Use().Routing(d.iPeoplesTransport),
+		d.PlanetsGrpcService.Setup(d.iPlanetsTransport),
+		d.CharactersGrpcService.Setup(d.iPeoplesTransport),
 	)
 }
