@@ -18,6 +18,6 @@ use (
 	./components/clients/kafka
 	./components/tech/toml
 	./components/tech/environ
-	./tui/go-chef
-	./tui/modules/test
+	./cli/go-chef
+	./cli/modules/test
 )
