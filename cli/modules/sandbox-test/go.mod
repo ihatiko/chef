@@ -1,4 +1,4 @@
-module github.com/ihatiko/chef/cli/modules/test
+module github.com/ihatiko/chef/cli/modules/sandbox-test
 
 go 1.23.4
 
