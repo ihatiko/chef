@@ -1,9 +1,14 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/spf13/cobra"
+	"golang.org/x/mod/semver"
+	"io"
+	"net/http"
 	"os"
+	"strings"
 )
 
 var rootCmd = &cobra.Command{
@@ -23,6 +28,27 @@ func Execute() {
 }
 
 func main() {
-	fmt.Println(rootCmd.Execute())
-	Execute()
+	response, err := http.Get("https://proxy.golang.org/github.com/ihatiko/go-chef-sandbox-test/@v/list")
+	if err != nil {
+		return
+	}
+
+	reader := bufio.NewReader(response.Body)
+
+	bytes, err := reader.ReadBytes(0)
+	if err != nil && err != io.EOF {
+		fmt.Println(err)
+		return
+	}
+
+	versions := strings.Split(string(bytes), "\n")
+
+	semver.Sort(versions)
+
+	lastVersion := versions[len(versions)-1]
+
+	fmt.Println(lastVersion)
+
+	//fmt.Println(rootCmd.Execute())
+	//Execute()
 }

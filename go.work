@@ -19,5 +19,5 @@ use (
 	./components/tech/toml
 	./components/tech/environ
 	./cli/go-chef
-	./cli/modules/sandbox-test
+	./cli/modules/go-chef-sandbox-test
 )
