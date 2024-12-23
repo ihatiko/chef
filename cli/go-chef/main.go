@@ -8,6 +8,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"os/exec"
 	"strings"
 )
 
@@ -28,8 +29,11 @@ func Execute() {
 }
 
 func main() {
-	response, err := http.Get("https://proxy.golang.org/github.com/ihatiko/go-chef-sandbox-test/@v/list")
+	packageName := "github.com/ihatiko/go-chef-sandbox-test"
+	fullPathName := fmt.Sprintf("https://proxy.golang.org/%s/@v/list", packageName)
+	response, err := http.Get(fullPathName)
 	if err != nil {
+		fmt.Println(err)
 		return
 	}
 
@@ -48,7 +52,13 @@ func main() {
 	lastVersion := versions[len(versions)-1]
 
 	fmt.Println(lastVersion)
-
+	installInstruction := fmt.Sprintf("%s@%s", packageName, lastVersion)
+	command := fmt.Sprintf("go install %s", installInstruction)
+	fmt.Println(command)
+	cmd := exec.Command(command)
+	if err := cmd.Run(); err != nil {
+		fmt.Println(err)
+	}
 	//fmt.Println(rootCmd.Execute())
 	//Execute()
 }
