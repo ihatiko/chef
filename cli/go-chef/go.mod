@@ -1,4 +1,4 @@
-module github.com/ihatiko/chef/tui/go-chef
+module github.com/ihatiko/chef/cli/go-chef
 
 go 1.23.4
 
