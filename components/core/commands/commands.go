@@ -3,10 +3,10 @@ package commands
 import (
 	"fmt"
 	"github.com/ihatiko/chef/components/observability/tech"
+	tC "github.com/ihatiko/chef/components/tech/config"
 	"github.com/ihatiko/chef/core/iface"
 	_ "github.com/ihatiko/chef/core/store"
 	"github.com/ihatiko/chef/core/utils"
-	tC "github.com/ihatiko/chef/infrastucture/components/tech/config"
 	"github.com/spf13/cobra"
 	"go.uber.org/zap"
 	"go/ast"

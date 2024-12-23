@@ -10,8 +10,8 @@ get-deps:
 
 compile-proto:
 	protoc -I . \
-        --plugin=protoc-gen-go=bin/protoc-gen-go --go_out . --go_opt paths=source_relative \
-        --plugin=protoc-gen-go-grpc=bin/protoc-gen-go-grpc --go-grpc_out . --go-grpc_opt paths=source_relative --go-grpc_opt=require_unimplemented_servers=false \
+        --plugin=protoc-gen-go=./bin/protoc-gen-go --go_out . --go_opt paths=source_relative \
+        --plugin=protoc-gen-go-grpc=./bin/protoc-gen-go-grpc --go-grpc_out . --go-grpc_opt paths=source_relative --go-grpc_opt=require_unimplemented_servers=false \
         ./pkg/protoc/*/*.proto
 
 vendor-proto:
