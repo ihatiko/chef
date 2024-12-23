@@ -13,3 +13,11 @@ compile-proto:
         --plugin=protoc-gen-go=bin/protoc-gen-go --go_out . --go_opt paths=source_relative \
         --plugin=protoc-gen-go-grpc=bin/protoc-gen-go-grpc --go-grpc_out . --go-grpc_opt paths=source_relative --go-grpc_opt=require_unimplemented_servers=false \
         ./pkg/protoc/*/*.proto
+
+vendor-proto:
+		@if [ ! -d vendor.protogen/google ]; then \
+			git clone https://github.com/googleapis/googleapis vendor.protogen/googleapis &&\
+			mkdir -p  vendor.protogen/google/ &&\
+			mv vendor.protogen/googleapis/google/api vendor.protogen/google &&\
+			rm -rf vendor.protogen/googleapis ;\
+		fi
