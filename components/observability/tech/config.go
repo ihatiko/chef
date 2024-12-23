@@ -3,9 +3,9 @@ package tech
 import (
 	_ "embed"
 
-	"github.com/ihatiko/olymp/components/observability/http"
-	"github.com/ihatiko/olymp/components/observability/logger"
-	"github.com/ihatiko/olymp/components/observability/tracer"
+	"github.com/ihatiko/chef/components/observability/http"
+	"github.com/ihatiko/chef/components/observability/logger"
+	"github.com/ihatiko/chef/components/observability/tracer"
 )
 
 //go:embed config/tech.config.toml

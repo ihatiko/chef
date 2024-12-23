@@ -2,7 +2,7 @@ go 1.23.0
 
 use (
 	./example
-	./core
+	./components/core
 	./components/observability/tracer
 	./components/observability/logger
 	./components/observability/tech
@@ -12,10 +12,10 @@ use (
 	./components/transports/grpc
 	./components/clients/postgresql
 	./components/clients/redis
-	./components/utils/config
+	./components/tech/config
 	./components/transports/kafka
 	./components/clients/kafka-producer
 	./components/clients/kafka
-	./components/utils/toml
-	./components/utils/environ
+	./components/tech/toml
+	./components/tech/environ
 )

@@ -3,8 +3,8 @@ package grpc
 import (
 	protoPeoples "example/pkg/protoc/peoples"
 	protoPlanets "example/pkg/protoc/planets"
-	"github.com/ihatiko/olymp/components/clients/postgresql"
-	"github.com/ihatiko/olymp/components/clients/redis"
+	"github.com/ihatiko/chef/components/clients/postgresql"
+	"github.com/ihatiko/chef/components/clients/redis"
 )
 
 type Config struct {

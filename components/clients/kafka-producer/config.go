@@ -1,7 +1,7 @@
 package kafka_producer
 
 import (
-	"github.com/ihatiko/olymp/components/clients/kafka"
+	"github.com/ihatiko/chef/components/clients/kafka"
 )
 
 type Config struct {

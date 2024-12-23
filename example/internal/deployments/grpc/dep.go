@@ -9,7 +9,7 @@ import (
 	planetsReadRepository "example/internal/features/planets/repository/read"
 	planetsService "example/internal/features/planets/service"
 	planetsTransport "example/internal/features/planets/transport"
-	"github.com/ihatiko/olymp/core/iface"
+	"github.com/ihatiko/chef/core/iface"
 )
 
 func (d Deployment) Dep() iface.IDeployment {

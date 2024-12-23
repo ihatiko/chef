@@ -3,7 +3,7 @@ package grpc
 import (
 	"example/internal/features/peoples"
 	"example/internal/features/planets"
-	"github.com/ihatiko/olymp/core/app"
+	"github.com/ihatiko/chef/core/app"
 )
 
 type Deployment struct {

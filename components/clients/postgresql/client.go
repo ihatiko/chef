@@ -7,7 +7,7 @@ import (
 	"log"
 	"time"
 
-	"github.com/ihatiko/olymp/core/store"
+	"github.com/ihatiko/chef/core/store"
 	_ "github.com/jackc/pgx/v5/stdlib"
 	"github.com/jmoiron/sqlx"
 	"github.com/uptrace/opentelemetry-go-extra/otelsql"

@@ -17,7 +17,7 @@ import (
 	grpcCtxtags "github.com/grpc-ecosystem/go-grpc-middleware/tags"
 	grpcOpentracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 	grpcPrometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
-	healthz "github.com/ihatiko/olymp/components/transports/grpc/protoc/health"
+	healthz "github.com/ihatiko/chef/components/transports/grpc/protoc/health"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/keepalive"

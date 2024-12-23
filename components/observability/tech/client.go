@@ -2,8 +2,8 @@ package tech
 
 import (
 	"fmt"
-	tC "github.com/ihatiko/olymp/infrastucture/components/utils/config"
-	"github.com/ihatiko/olymp/infrastucture/components/utils/toml"
+	tC "github.com/ihatiko/chef/infrastucture/components/tech/config"
+	"github.com/ihatiko/chef/infrastucture/components/utils/toml"
 )
 
 func Use(arg string) error {

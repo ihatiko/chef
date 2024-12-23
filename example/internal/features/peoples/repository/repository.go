@@ -4,7 +4,7 @@ import (
 	"context"
 	"example/internal/features/peoples"
 
-	"github.com/ihatiko/olymp/components/clients/redis"
+	"github.com/ihatiko/chef/components/clients/redis"
 )
 
 type repository struct {

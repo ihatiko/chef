@@ -3,7 +3,7 @@ package main
 import (
 	"example/internal/deployments/daemon"
 	"example/internal/deployments/grpc"
-	"github.com/ihatiko/olymp/core/commands"
+	"github.com/ihatiko/chef/core/commands"
 )
 
 func main() {

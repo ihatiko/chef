@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/ihatiko/olymp/core/store"
+	"github.com/ihatiko/chef/core/store"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/segmentio/kafka-go"
 )

@@ -1,4 +1,4 @@
-module github.com/ihatiko/olymp/components/observability/tracer
+module github.com/ihatiko/chef/components/observability/tracer
 
 go 1.22.0
 

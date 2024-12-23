@@ -1,4 +1,4 @@
-module github.com/ihatiko/olymp/components/observability/http
+module github.com/ihatiko/chef/components/observability/http
 
 go 1.22.0
 

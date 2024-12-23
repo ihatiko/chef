@@ -1,4 +1,4 @@
-module github.com/ihatiko/olymp/components/transports/kafka
+module github.com/ihatiko/chef/components/transports/kafka
 
 go 1.22.0
 

@@ -6,8 +6,8 @@ import (
 	protoPlanets "example/pkg/protoc/planets"
 	"fmt"
 
-	"github.com/ihatiko/olymp/components/transports/cron"
-	"github.com/ihatiko/olymp/components/transports/daemon"
+	"github.com/ihatiko/chef/components/transports/cron"
+	"github.com/ihatiko/chef/components/transports/daemon"
 )
 
 type transport struct {

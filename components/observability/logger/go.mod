@@ -1,4 +1,4 @@
-module github.com/ihatiko/olymp/components/observability/logger
+module github.com/ihatiko/chef/components/observability/logger
 
 go 1.22.0
 

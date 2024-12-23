@@ -1,4 +1,4 @@
-module github.com/ihatiko/olymp/components/transports/grpc
+module github.com/ihatiko/chef/components/transports/grpc
 
 go 1.22.0
 

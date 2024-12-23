@@ -1,4 +1,4 @@
-module github.com/ihatiko/olymp/components/clients/kafka-producer
+module github.com/ihatiko/chef/components/clients/kafka-producer
 
 go 1.22.0
 

@@ -1,3 +1,3 @@
-module github.com/ihatiko/olymp/components/clients/kafka
+module github.com/ihatiko/chef/components/clients/kafka
 
 go 1.22.0

@@ -3,8 +3,8 @@ package service
 import (
 	"example/internal/features/planets"
 
-	"github.com/ihatiko/olymp/components/transports/cron"
-	"github.com/ihatiko/olymp/components/transports/daemon"
+	"github.com/ihatiko/chef/components/transports/cron"
+	"github.com/ihatiko/chef/components/transports/daemon"
 )
 
 type service struct {

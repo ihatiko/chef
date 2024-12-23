@@ -1,4 +1,4 @@
-module github.com/ihatiko/olymp/components/clients/redis
+module github.com/ihatiko/chef/components/clients/redis
 
 go 1.22.0
 

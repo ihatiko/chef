@@ -1,9 +1,9 @@
 package daemon
 
 import (
-	"github.com/ihatiko/olymp/components/clients/postgresql"
-	"github.com/ihatiko/olymp/components/clients/redis"
-	"github.com/ihatiko/olymp/components/transports/daemon"
+	"github.com/ihatiko/chef/components/clients/postgresql"
+	"github.com/ihatiko/chef/components/clients/redis"
+	"github.com/ihatiko/chef/components/transports/daemon"
 )
 
 type Config struct {
