@@ -3,7 +3,7 @@
 
 package peoples
 
-import "github.com/ihatiko/olymp/components/transports/grpc"
+import "github.com/ihatiko/chef/components/transports/grpc"
 
 const (
 	sdkGrpcName = "Grpc.PlanetsService"
