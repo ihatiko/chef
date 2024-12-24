@@ -1,4 +1,4 @@
-package utils
+package file_builder
 
 const (
 	GoModTidy      = "go mod tidy"

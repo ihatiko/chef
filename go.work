@@ -20,4 +20,5 @@ use (
 	./components/tech/environ
 	./cli/go-chef
 	./cli/modules/go-chef-sandbox-test
+	./components/code-gen/file-builder
 )
