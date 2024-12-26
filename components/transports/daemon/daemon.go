@@ -107,8 +107,7 @@ func (t Transport) handler(id int) {
 	ctx, cancel := context.WithTimeout(context.TODO(), t.Config.Timeout)
 	defer func() {
 		if r := recover(); r != nil {
-			otelzap.
-				Ctx(ctx).Error("error handling message", zap.Any("panic", r))
+			slog.Error("recovering from panic", zap.Any("panic", r))
 		}
 	}()
 

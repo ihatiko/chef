@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/uptrace/opentelemetry-go-extra/otelzap"
 )
 
 const (
@@ -106,7 +105,7 @@ func (t transport) handler(id int) {
 				return
 			}
 			if ctx.Err() != nil {
-				otelzap.S().Error(ctx.Err())
+				slog.Error("error handling context", slog.Any("error", ctx.Err()))
 			}
 		}
 	}()
