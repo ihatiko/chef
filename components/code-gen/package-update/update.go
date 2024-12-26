@@ -2,6 +2,7 @@ package package_update
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
 	filebuilder "github.com/ihatiko/chef/code-gen-utils/file-builder"
 	"golang.org/x/mod/semver"
@@ -76,7 +77,9 @@ func getLastVersion(packageName string, err error) (string, error) {
 		slog.Error("Error reading response", slog.Any("error", err))
 		return "", err
 	}
-
+	if len(bytes) == 0 {
+		return "", errors.New("empty response")
+	}
 	versions := strings.Split(string(bytes), "\n")
 
 	semver.Sort(versions)
