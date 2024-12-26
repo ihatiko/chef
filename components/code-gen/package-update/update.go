@@ -4,7 +4,7 @@ import (
 	"bufio"
 	"errors"
 	"fmt"
-	filebuilder "github.com/ihatiko/chef/code-gen-utils/file-builder"
+	filebuilder "github.com/ihatiko/chef/code-gen/file-builder"
 	"golang.org/x/mod/semver"
 	"io"
 	"log/slog"

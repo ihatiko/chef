@@ -1,4 +1,4 @@
-module github.com/ihatiko/chef/code-gen-utils/package-update
+module github.com/ihatiko/chef/code-gen/package-update
 
 go 1.23.4
 

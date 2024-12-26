@@ -1,3 +1,3 @@
-module github.com/ihatiko/chef/code-gen-utils/ast-graph
+module github.com/ihatiko/chef/code-gen/ast-graph
 
 go 1.22.0

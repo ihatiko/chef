@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	filebuilder "github.com/ihatiko/chef/code-gen-utils/file-builder"
-	packageUpdate "github.com/ihatiko/chef/code-gen-utils/package-update"
+	filebuilder "github.com/ihatiko/chef/code-gen/file-builder"
+	packageUpdate "github.com/ihatiko/chef/code-gen/package-update"
 	"log/slog"
 	"os"
 	"strings"
