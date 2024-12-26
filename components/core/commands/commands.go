@@ -49,7 +49,7 @@ func WithDeployment[Deployment iface.IDeployment](opts ...opt) func() (*cobra.Co
 					if r := recover(); r != nil {
 						stack := string(debug.Stack())
 						name := reflect.TypeOf(*d).String()
-						slog.Error(fmt.Sprintf("Recovered in core (Run) [%s] \n error: %s", name, stack))
+						slog.Error(fmt.Sprintf("Recovered in go-chef-core (Run) [%s] \n error: %s", name, stack))
 					}
 				}()
 				err := tC.ToConfig(d)

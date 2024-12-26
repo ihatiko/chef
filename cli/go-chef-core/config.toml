@@ -1,0 +1,5 @@
+[commands.test]
+path = "github.com/ihatiko/chef/cli/modules/go-chef-sandbox-test"
+
+[commands.cook]
+path = "github.com/ihatiko/chef/cli/modules/go-chef-project-builder" # require

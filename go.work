@@ -19,6 +19,8 @@ use (
 	./components/tech/toml
 	./components/tech/environ
 	./cli/go-chef
+	./cli/go-chef-core
 	./cli/modules/go-chef-sandbox-test
 	./components/code-gen/file-builder
+	./components/code-gen/package-update
 )

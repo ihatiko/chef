@@ -1,9 +1,0 @@
-[commands.go-chef-sandbox-test]
-api = ["test"]
-path = "github.com/ihatiko/chef/cli/modules/go-chef-sandbox-test"
-as = ""
-
-[commands.go-chef]
-api = ["project"] # require
-path = "github.com/ihatiko/chef/cli/modules/go-chef-sandbox-test" # require
-as = "cook" # require
