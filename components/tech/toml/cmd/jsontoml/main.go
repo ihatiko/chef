@@ -10,11 +10,10 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
+	"github.com/ihatiko/chef/components/tech/toml"
 	"io"
 	"io/ioutil"
 	"os"
-
-	"github.com/ihatiko/chef/infrastucture/components/utils/toml"
 )
 
 func main() {

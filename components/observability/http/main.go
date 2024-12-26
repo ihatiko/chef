@@ -9,8 +9,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ihatiko/chef/core/iface"
-	store "github.com/ihatiko/chef/core/store"
+	"github.com/ihatiko/chef/components/core/iface"
+	store "github.com/ihatiko/chef/components/core/store"
 	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"golang.org/x/net/context"

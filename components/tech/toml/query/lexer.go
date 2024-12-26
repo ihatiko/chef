@@ -11,7 +11,7 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/ihatiko/chef/infrastucture/components/utils/toml"
+	"github.com/ihatiko/chef/components/tech/toml"
 )
 
 // Lexer state function

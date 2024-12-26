@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/ihatiko/chef/infrastucture/components/utils/toml"
+	"github.com/ihatiko/chef/components/tech/toml"
 )
 
 func assertArrayContainsInOrder(t *testing.T, array []interface{}, objects ...interface{}) {

@@ -3,7 +3,7 @@ package query
 import (
 	"testing"
 
-	"github.com/ihatiko/chef/infrastucture/components/utils/toml"
+	"github.com/ihatiko/chef/components/tech/toml"
 )
 
 func testQLFlow(t *testing.T, input string, expectedFlow []token) {

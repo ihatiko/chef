@@ -14,7 +14,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/ihatiko/chef/infrastucture/components/utils/toml"
+	"github.com/ihatiko/chef/components/tech/toml"
 )
 
 func main() {

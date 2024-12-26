@@ -3,7 +3,7 @@ package query
 import (
 	"time"
 
-	"github.com/ihatiko/chef/infrastucture/components/utils/toml"
+	"github.com/ihatiko/chef/components/tech/toml"
 )
 
 // NodeFilterFn represents a user-defined filter function, for use with

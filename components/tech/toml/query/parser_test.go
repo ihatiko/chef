@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ihatiko/chef/infrastucture/components/utils/toml"
+	"github.com/ihatiko/chef/components/tech/toml"
 )
 
 type queryTestNode struct {

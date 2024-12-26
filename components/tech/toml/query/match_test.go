@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/ihatiko/chef/infrastucture/components/utils/toml"
+	"github.com/ihatiko/chef/components/tech/toml"
 )
 
 // dump path tree to a string

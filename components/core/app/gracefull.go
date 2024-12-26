@@ -8,7 +8,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/ihatiko/chef/core/iface"
+	"github.com/ihatiko/chef/components/core/iface"
 )
 
 func (a *App) Graceful(components []iface.IComponent) {

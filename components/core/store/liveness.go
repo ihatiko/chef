@@ -3,7 +3,7 @@ package store
 import (
 	"sync"
 
-	"github.com/ihatiko/chef/core/iface"
+	"github.com/ihatiko/chef/components/core/iface"
 )
 
 var LivenessStore = store{

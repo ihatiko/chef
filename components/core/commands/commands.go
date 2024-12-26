@@ -2,13 +2,12 @@ package commands
 
 import (
 	"fmt"
+	"github.com/ihatiko/chef/components/core/iface"
+	_ "github.com/ihatiko/chef/components/core/store"
+	"github.com/ihatiko/chef/components/core/utils"
 	"github.com/ihatiko/chef/components/observability/tech"
 	tC "github.com/ihatiko/chef/components/tech/config"
-	"github.com/ihatiko/chef/core/iface"
-	_ "github.com/ihatiko/chef/core/store"
-	"github.com/ihatiko/chef/core/utils"
 	"github.com/spf13/cobra"
-	"go.uber.org/zap"
 	"go/ast"
 	"go/parser"
 	"go/token"
@@ -183,8 +182,7 @@ func WithApp(operators ...func() (*cobra.Command, error)) {
 
 func Compile(rootCommand *cobra.Command, err error) {
 	if err != nil {
-		slog.Error("error compile command", zap.Any("err", err))
-		fmt.Println(err)
+		slog.Error("error compile command", slog.Any("error", err))
 		os.Exit(1)
 	}
 	if len(os.Args) > 1 {

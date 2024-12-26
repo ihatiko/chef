@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/ihatiko/chef/core/store"
+	"github.com/ihatiko/chef/components/core/store"
 	"github.com/redis/go-redis/extra/redisotel/v9"
 	"github.com/redis/go-redis/v9"
 )

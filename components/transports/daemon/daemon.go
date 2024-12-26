@@ -11,7 +11,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
-	"github.com/uptrace/opentelemetry-go-extra/otelzap"
 	"go.uber.org/zap"
 )
 
@@ -116,20 +115,20 @@ func (t Transport) handler(id int) {
 		select {
 		case <-ctx.Done():
 			if errors.Is(ctx.Err(), context.DeadlineExceeded) {
-				otelzap.S().Warn("context deadline exceeded daemon")
+				slog.Warn("context deadline exceeded daemon")
 				return
 			}
 			if errors.Is(ctx.Err(), context.Canceled) {
 				return
 			}
 			if ctx.Err() != nil {
-				otelzap.S().Error(ctx.Err())
+				slog.Error("daemon error", slog.Any("error", ctx.Err()))
 			}
 		}
 	}()
 	err := t.h(Request{ctx: ctx, id: id})
 	if err != nil {
-		otelzap.S().Errorf("Error daemon worker: %v", err)
+		slog.Error("daemon error", slog.Any("error", err))
 		failedDaemon.WithLabelValues().Inc()
 		return
 	}

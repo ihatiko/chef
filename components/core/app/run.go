@@ -6,8 +6,8 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/ihatiko/chef/core/iface"
-	"github.com/ihatiko/chef/core/store"
+	"github.com/ihatiko/chef/components/core/iface"
+	"github.com/ihatiko/chef/components/core/store"
 )
 
 type Option func(*App)

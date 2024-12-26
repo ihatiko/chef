@@ -2,7 +2,7 @@ package daemon
 
 import (
 	"example/internal/features/planets"
-	"github.com/ihatiko/chef/core/app"
+	"github.com/ihatiko/chef/components/core/app"
 )
 
 type Deployment struct {
