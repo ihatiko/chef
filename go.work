@@ -1,7 +1,5 @@
 go 1.23.4
 
-godebug default=go1.23
-
 use (
 	./cli/go-chef
 	./cli/go-chef-core
@@ -11,8 +9,8 @@ use (
 	./components/clients/postgresql
 	./components/clients/redis
 	./components/code-gen/file-builder
-	./components/code-gen/package-update
 	./components/code-gen/helm-generator
+	./components/code-gen/package-update
 	./components/core
 	./components/observability/http
 	./components/observability/logger
