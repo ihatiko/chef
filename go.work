@@ -24,4 +24,6 @@ use (
 	./components/transports/grpc
 	./components/transports/kafka
 	./example
+	./components/clients/grpc
+	./components/clients/http
 )
