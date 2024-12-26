@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	filebuilder "github.com/ihatiko/chef/code-gen/file-builder"
 	packageUpdate "github.com/ihatiko/chef/code-gen/package-update"
 	"log/slog"
@@ -13,7 +12,6 @@ const corePathPackage = "github.com/ihatiko/chef/cli/go-chef-core"
 const coreNamePackage = "go-chef-core"
 
 func main() {
-	fmt.Println(os.Args)
 	params := strings.Join(os.Args[1:], " ")
 	//TODO timeout on update
 	packageUpdate.AutoUpdate(corePathPackage)

@@ -1,26 +1,26 @@
 go 1.23.4
 
 use (
-	./example
-	./components/core
-	./components/observability/tracer
-	./components/observability/logger
-	./components/observability/tech
-	./components/observability/http
-	./components/transports/daemon
-	./components/transports/cron
-	./components/transports/grpc
-	./components/clients/postgresql
-	./components/clients/redis
-	./components/tech/config
-	./components/transports/kafka
-	./components/clients/kafka-producer
-	./components/clients/kafka
-	./components/tech/toml
-	./components/tech/environ
 	./cli/go-chef
 	./cli/go-chef-core
 	./cli/modules/go-chef-sandbox-test
+	./components/clients/kafka
+	./components/clients/kafka-producer
+	./components/clients/postgresql
+	./components/clients/redis
 	./components/code-gen/file-builder
 	./components/code-gen/package-update
+	./components/core
+	./components/observability/http
+	./components/observability/logger
+	./components/observability/tech
+	./components/observability/tracer
+	./components/tech/config
+	./components/tech/environ
+	./components/tech/toml
+	./components/transports/cron
+	./components/transports/daemon
+	./components/transports/grpc
+	./components/transports/kafka
+	./example
 )
