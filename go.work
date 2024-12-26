@@ -1,0 +1,29 @@
+go 1.23.4
+
+godebug default=go1.23
+
+use (
+	./cli/go-chef
+	./cli/go-chef-core
+	./cli/modules/go-chef-sandbox-test
+	./components/clients/kafka
+	./components/clients/kafka-producer
+	./components/clients/postgresql
+	./components/clients/redis
+	./components/code-gen/file-builder
+	./components/code-gen/package-update
+	./components/code-gen/helm-generator
+	./components/core
+	./components/observability/http
+	./components/observability/logger
+	./components/observability/tech
+	./components/observability/tracer
+	./components/tech/config
+	./components/tech/environ
+	./components/tech/toml
+	./components/transports/cron
+	./components/transports/daemon
+	./components/transports/grpc
+	./components/transports/kafka
+	./example
+)

@@ -1,0 +1,1 @@
+module github.com/ihatiko/chef/code-gen/helm-generator
