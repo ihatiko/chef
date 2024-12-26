@@ -1,7 +1,6 @@
 package file_builder
 
 import (
-	"bytes"
 	"errors"
 	"log/slog"
 	"os"
@@ -81,9 +80,9 @@ func (c *Composer) ExecDefaultCommand(command string) (*strings.Builder, error) 
 func (c *Composer) ExecCommand(command string, consoleEnv string) (*strings.Builder, error) {
 	cmdFolder := exec.Command(consoleEnv, "-c", command)
 	builder := new(strings.Builder)
-	var out bytes.Buffer
+	builderErr := new(strings.Builder)
 	cmdFolder.Stdin = strings.NewReader("")
-	cmdFolder.Stderr = &out
+	cmdFolder.Stderr = builderErr
 	cmdFolder.Dir = c.ProjectPath
 	cmdFolder.Stdout = builder
 	err := cmdFolder.Run()
@@ -91,7 +90,7 @@ func (c *Composer) ExecCommand(command string, consoleEnv string) (*strings.Buil
 		return builder, err
 	}
 	if cmdFolder.ProcessState.ExitCode() > 0 {
-		return builder, errors.New(out.String())
+		return builder, errors.New(builderErr.String())
 	}
 	return builder, err
 }
