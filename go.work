@@ -5,4 +5,5 @@ use (
 	cli/go-chef-core
 	components/code-gen/file-builder
 	components/code-gen/package-update
+	.
 )
