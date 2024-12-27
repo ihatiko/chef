@@ -1,4 +1,4 @@
-package file_builder
+package command_executor
 
 import (
 	"errors"
@@ -26,19 +26,19 @@ type Command struct {
 	state       bool
 }
 
-type Composer struct {
+type Executor struct {
 	ProjectPath string
 }
 
-func NewComposer(projectPaths ...string) *Composer {
+func NewExecutor(projectPaths ...string) *Executor {
 	projectPath := ""
 	if projectPaths != nil || len(projectPaths) > 0 {
 		projectPath = projectPaths[0]
 	}
-	return &Composer{ProjectPath: GetPath(projectPath)}
+	return &Executor{ProjectPath: GetPath(projectPath)}
 }
 
-func (c *Composer) CommandsComposer(commands ...Command) {
+func (c *Executor) CommandsExecutor(commands ...Command) {
 	consoleEnv := "bash"
 	if os.Getenv("GOOS") == "windows" || strings.Contains(strings.ToLower(os.Getenv("OS")), "windows") {
 		consoleEnv = "powershell"
@@ -55,7 +55,7 @@ func (c *Composer) CommandsComposer(commands ...Command) {
 	}
 }
 
-func (c *Composer) ConditionalComposer(commands ...Command) {
+func (c *Executor) ConditionalExecutor(commands ...Command) {
 	consoleEnv := "bash"
 	if os.Getenv("GOOS") == "windows" || strings.Contains(strings.ToLower(os.Getenv("OS")), "windows") {
 		consoleEnv = "powershell"
@@ -69,7 +69,7 @@ func (c *Composer) ConditionalComposer(commands ...Command) {
 		}
 	}
 }
-func (c *Composer) ExecDefaultCommand(command string) (*strings.Builder, error) {
+func (c *Executor) ExecDefaultCommand(command string) (*strings.Builder, error) {
 	consoleEnv := "bash"
 	if os.Getenv("GOOS") == "windows" || strings.Contains(strings.ToLower(os.Getenv("OS")), "windows") {
 		consoleEnv = "powershell"
@@ -77,7 +77,7 @@ func (c *Composer) ExecDefaultCommand(command string) (*strings.Builder, error) 
 	return c.ExecCommand(command, consoleEnv)
 }
 
-func (c *Composer) ExecCommand(command string, consoleEnv string) (*strings.Builder, error) {
+func (c *Executor) ExecCommand(command string, consoleEnv string) (*strings.Builder, error) {
 	cmdFolder := exec.Command(consoleEnv, "-c", command)
 	builder := new(strings.Builder)
 	builderErr := new(strings.Builder)

@@ -1,21 +1,21 @@
 package main
 
 import (
-	filebuilder "github.com/ihatiko/chef/code-gen/file-builder"
-	packageUpdate "github.com/ihatiko/chef/code-gen/package-update"
+	commandExecutor "github.com/ihatiko/chef/components/code-gen-utils/command-executor"
+	packageUpdate "github.com/ihatiko/chef/components/code-gen-utils/package-updater"
 	"log/slog"
 	"os"
 	"strings"
 )
 
-const corePathPackage = "github.com/ihatiko/chef/cli/go-chef-core"
+const corePathPackage = "github.com/ihatiko/gochef/cli/go-chef-core"
 const coreNamePackage = "go-chef-core"
 
 func main() {
 	params := strings.Join(os.Args[1:], " ")
 	//TODO timeout on update
 	packageUpdate.AutoUpdate(corePathPackage)
-	composer := filebuilder.NewComposer()
+	composer := commandExecutor.NewExecutor()
 	result, err := composer.ExecDefaultCommand(coreNamePackage)
 	if err != nil {
 		slog.Error("Error executing command: ", slog.Any("error", err), slog.String("command", params))
