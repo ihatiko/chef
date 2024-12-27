@@ -8,8 +8,8 @@ replace (
 )
 
 require (
-	github.com/ihatiko/chef/code-gen/file-builder v0.0.0-00010101000000-000000000000
-	github.com/ihatiko/chef/code-gen/package-update v0.0.0-00010101000000-000000000000
+	github.com/ihatiko/chef/code-gen/file-builder v0.0.18
+	github.com/ihatiko/chef/code-gen/package-update v0.0.18
 )
 
 require golang.org/x/mod v0.22.0 // indirect
