@@ -1,1 +1,1 @@
-package go_chef_project_builder
+package main
