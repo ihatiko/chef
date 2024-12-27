@@ -6,4 +6,14 @@ use (
 	./components/code-gen-utils/command-executor
 	./components/code-gen-utils/file-builder
 	./components/code-gen-utils/package-updater
+	./components/observability/http
+)
+
+replace (
+	github.com/ihatiko/chef/cli/go-chef v0.0.0-00010101000000-000000000000 => ./cli/go-chef
+	github.com/ihatiko/chef/cli/go-chef-core v0.0.0-00010101000000-000000000000 => ./cli/go-chef-core
+	github.com/ihatiko/chef/components/code-gen-utils/command-executor v0.0.0-00010101000000-000000000000 => ./components/code-gen-utils/command-executor
+	github.com/ihatiko/chef/components/code-gen-utils/file-builder v0.0.0-00010101000000-000000000000 => ./components/code-gen-utils/file-builder
+	github.com/ihatiko/chef/components/code-gen-utils/package-updater v0.0.0-00010101000000-000000000000 => ./components/code-gen-utils/package-updater
+	github.com/ihatiko/chef/components/observability/http v0.0.0-00010101000000-000000000000 => ./components/observability/http
 )
