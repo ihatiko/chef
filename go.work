@@ -1,8 +1,0 @@
-go 1.23.4
-
-use (
-	cli/go-chef
-	cli/go-chef-core
-	components/code-gen/file-builder
-	components/code-gen/package-update
-)
