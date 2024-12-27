@@ -1,0 +1,12 @@
+github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
+github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/ihatiko/chef/components/tech/environ v0.0.0-20241227142407-9f0b6785d337 h1:L8TIz/RG40VvYleIEEMjALF5rd1APAt/+zwgpROutUM=
+github.com/ihatiko/chef/components/tech/environ v0.0.0-20241227142407-9f0b6785d337/go.mod h1:gmdyoqwAZjt83/MVDsWaP+81hlsJeJQcOaR3jrDD5dg=
+github.com/ihatiko/chef/components/tech/toml v0.0.0-20241227142556-37454b1bd9f5 h1:MhtMKFSBuhstVHuz5TuzSwuDtFyUu7IyKnfGfNv4JZY=
+github.com/ihatiko/chef/components/tech/toml v0.0.0-20241227142556-37454b1bd9f5/go.mod h1:KW0KeLwANgTmdJhNNl/0j3ILdopjM7BiB5hi2weJa3g=
+github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
+github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
+github.com/stretchr/testify v1.10.0 h1:Xv5erBjTwe/5IxqUQTdXv5kgmIvbHo3QQyRwhJsOfJA=
+github.com/stretchr/testify v1.10.0/go.mod h1:r2ic/lqez/lEtzL7wO/rwa5dbSLXVDPFyf8C91i36aY=
+gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
+gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=

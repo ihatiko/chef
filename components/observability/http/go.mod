@@ -1,8 +1,9 @@
 module github.com/ihatiko/chef/components/observability/http
 
-go 1.22.0
+go 1.23.4
 
 require (
+	github.com/ihatiko/chef/components/core v0.0.0-20241227140118-0f261f924144
 	github.com/pkg/errors v0.9.1
 	github.com/prometheus/client_golang v1.19.0
 	golang.org/x/net v0.28.0

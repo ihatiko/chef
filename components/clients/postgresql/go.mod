@@ -1,8 +1,9 @@
 module github.com/ihatiko/chef/components/clients/postgresql
 
-go 1.22.0
+go 1.23.4
 
 require (
+	github.com/ihatiko/chef/components/core v0.0.0-20241227140118-0f261f924144
 	github.com/jackc/pgx/v5 v5.5.5
 	github.com/jmoiron/sqlx v1.4.0
 	github.com/uptrace/opentelemetry-go-extra/otelsql v0.2.4
@@ -24,7 +25,6 @@ require (
 	github.com/prometheus/client_model v0.6.1 // indirect
 	github.com/prometheus/common v0.48.0 // indirect
 	github.com/prometheus/procfs v0.12.0 // indirect
-	github.com/stretchr/testify v1.10.0 // indirect
 	go.opentelemetry.io/otel/metric v1.26.0 // indirect
 	go.opentelemetry.io/otel/sdk v1.26.0 // indirect
 	go.opentelemetry.io/otel/trace v1.26.0 // indirect
