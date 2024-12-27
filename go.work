@@ -23,7 +23,6 @@ use (
 	./components/transports/daemon
 	./components/transports/grpc
 	./components/transports/kafka
-	./example
 	./components/clients/grpc
 	./components/clients/http
 )
