@@ -10,7 +10,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/ihatiko/chef/components/tech/toml"
+	"github.com/ihatiko/go-chef-configuration/toml"
 	"io"
 	"os"
 )
