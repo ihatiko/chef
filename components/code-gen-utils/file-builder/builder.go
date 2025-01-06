@@ -95,7 +95,7 @@ func (b *Builder) buildFile(secondPath string, folder string, obj any) {
 	t, err := template.New("").Parse(string(rF))
 	if err != nil {
 		slog.Error(err.Error())
-		panic("failed to parse template")
+		panic("failed to parse project-template")
 	}
 	parsedPath, _ := strings.CutSuffix(secondPath, ".tmpl")
 	parsedPath = b.cleanPath(parsedPath)
@@ -112,20 +112,20 @@ func (b *Builder) buildFile(secondPath string, folder string, obj any) {
 	err = t.ExecuteTemplate(f, "", obj)
 	if err != nil {
 		slog.Error(err.Error())
-		panic("failed to execute template")
+		panic("failed to execute project-template")
 	}
 }
 func (b *Builder) RewritePath(folder string, obj any) string {
 	t, err := template.New("").Parse(folder)
 	if err != nil {
 		slog.Error(err.Error())
-		panic("failed to parse template")
+		panic("failed to parse project-template")
 	}
 	buffer := bytes.NewBufferString("")
 	err = t.ExecuteTemplate(buffer, "", obj)
 	if err != nil {
 		slog.Error(err.Error())
-		panic("failed to execute template")
+		panic("failed to execute project-template")
 	}
 	return strings.ReplaceAll(buffer.String(), " ", "")
 }
